@@ -1,3 +1,4 @@
+# views/member_view.py
 class MemberView:
     @staticmethod
     def display_member_menu():
@@ -26,11 +27,16 @@ class MemberView:
 
     @staticmethod
     def get_member_id_for_update():
-        return int(input("Enter Member ID to update: "))
+        while True:
+            try:
+                member_id = int(input("Enter Member ID to update: "))
+                return member_id
+            except ValueError:
+                print("Invalid input. Please enter a valid integer.")
 
     @staticmethod
     def display_member_update_prompt(member):
-        print(f"Updating details for {member.get_name()}:")
+        print(f"Updating details for {member.name}:")
 
     @staticmethod
     def get_new_value(current_value, prompt):
@@ -48,8 +54,8 @@ class MemberView:
     @staticmethod
     def display_member_list(member):
         print(
-            f"ID: {member.get_member_id()}, Name: {member.get_name()}, "
-            f"Membership: {member.get_membership_type().value}, Gym Location: {member.get_gym_location()}"
+            f"ID: {member.id}, Name: {member.name}, "
+            f"Membership: {member.membership_type}, Gym Location: {member.gym_location_id}"
         )
 
     @staticmethod

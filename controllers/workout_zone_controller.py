@@ -1,4 +1,4 @@
-from Models.workout_zone import WorkoutZone
+from models.workout_zone import WorkoutZone
 from views.workout_zone_view import WorkoutZoneView
 
 class WorkoutZoneController:

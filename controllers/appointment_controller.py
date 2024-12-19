@@ -1,4 +1,4 @@
-from Models.appointment import Appointment
+from models.appointment import Appointment
 
 class AppointmentController:
     def __init__(self):

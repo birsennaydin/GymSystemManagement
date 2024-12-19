@@ -1,5 +1,5 @@
-from Models.payment import Payment
-from Models.enums import SubscriptionType
+from models.payment import Payment
+from models.enums import SubscriptionType
 
 
 class PaymentController:

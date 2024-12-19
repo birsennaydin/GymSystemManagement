@@ -1,5 +1,5 @@
-from Models.staff import Staff
-from Models.enums import StaffRole
+from models.staff import Staff
+from models.enums import StaffRole
 
 
 class StaffController:

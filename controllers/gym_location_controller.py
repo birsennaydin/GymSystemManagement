@@ -1,6 +1,6 @@
 from views.gym_location_view import GymLocationView
-from Models.gym_location import GymLocation
-from Models.enums import CityEnum, CountryEnum
+from models.gym_location import GymLocation
+from models.enums import CityEnum, CountryEnum
 
 class GymLocationController:
     def __init__(self):

@@ -1,4 +1,4 @@
-from Models.attedance import Attendance
+from models.attedance import Attendance
 
 class AttendanceController:
     attendance_records = []

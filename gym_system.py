@@ -1,11 +1,12 @@
-from Controllers.member_controller import MemberController
-from Controllers.attendance_controller import AttendanceController
-from Controllers.payment_controller import PaymentController
-from Controllers.workout_zone_controller import WorkoutZoneController
-from Controllers.appointment_controller import AppointmentController
-from Controllers.staff_controller import StaffController
-from Controllers.report_controller import ReportController
-from Controllers.gym_location_controller import GymLocationController
+from controllers.member_controller import MemberController
+from controllers.attendance_controller import AttendanceController
+from controllers.payment_controller import PaymentController
+from controllers.workout_zone_controller import WorkoutZoneController
+from controllers.appointment_controller import AppointmentController
+from controllers.staff_controller import StaffController
+from controllers.report_controller import ReportController
+from controllers.gym_location_controller import GymLocationController
+from controllers.report_controller import ReportController
 from views.display_menu import DisplayMenu
 
 
@@ -15,6 +16,7 @@ class GymSystem:
         self.gym_location_controller = GymLocationController()
         self.member_controller = MemberController()
         self.workout_zone_controller = WorkoutZoneController()
+        self.report_controller = ReportController()
 
     def run(self):
         while self.running:
