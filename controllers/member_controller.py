@@ -22,34 +22,26 @@ class MemberController:
 
     @staticmethod
     def add_member():
-        """
-        Adds a new member to the system.
-        """
         MemberView.display_member_details_prompt()
         name = MemberView.get_member_name()
-        gym_location = MemberView.get_gym_location()  # gym location is taken from the user input
+        gym_location = MemberView.get_gym_location()
         membership_type = MemberView.display_membership_type_prompt()
         health_info = MemberView.get_health_info()
 
-        # Now, we will create a new member by passing the correct arguments.
-        # Ensure that gym_location is treated as gym_location_id (not gym_location itself).
         member = Member(
-            membership_id=Member.id_counter,  # Generate unique membership ID
+            membership_id=Member.id_counter,  # Auto-increment membership_id
             name=name,
-            email="test@email.com",  # Dummy email, should be collected from the user
-            phone="123456789",  # Dummy phone number, should be collected from the user
+            email="test@email.com",  # Dummy email for now
+            phone="123456789",  # Dummy phone number
             membership_type=membership_type,
             health_info=health_info,
             status="Active",
-            gym_location_id=gym_location  # Correctly pass gym_location_id instead of gym_location
+            gym_location_id=gym_location
         )
         MemberView.display_member_added_success(name)
 
     @staticmethod
     def list_members():
-        """
-        Displays all the members.
-        """
         members = Member.get_all()
         if not members:
             MemberView.display_no_members_found()
@@ -59,9 +51,6 @@ class MemberController:
 
     @staticmethod
     def update_member():
-        """
-        Updates an existing member's details.
-        """
         member_id = MemberView.get_member_id_for_update()
         member = Member.get_by_id(member_id)
 

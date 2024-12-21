@@ -1,47 +1,48 @@
+# gym_system.py
+from controllers.auth_controller import AuthController
 from controllers.member_controller import MemberController
-from controllers.attendance_controller import AttendanceController
-from controllers.payment_controller import PaymentController
 from controllers.workout_zone_controller import WorkoutZoneController
 from controllers.appointment_controller import AppointmentController
+from controllers.payment_controller import PaymentController
+from controllers.attendance_controller import AttendanceController
 from controllers.staff_controller import StaffController
-from controllers.report_controller import ReportController
-from controllers.gym_location_controller import GymLocationController
-from controllers.report_controller import ReportController
-from views.display_menu import DisplayMenu
-
+from views.display_menu import DisplayMenu  # Import DisplayMenu from views
 
 class GymSystem:
     def __init__(self):
         self.running = True
-        self.gym_location_controller = GymLocationController()
+        self.auth_controller = AuthController()
         self.member_controller = MemberController()
         self.workout_zone_controller = WorkoutZoneController()
-        self.report_controller = ReportController()
+        self.appointment_controller = AppointmentController()
+        self.payment_controller = PaymentController()
+        self.attendance_controller = AttendanceController()
+        self.staff_controller = StaffController()
+
+    def authenticate_user(self):
+        """
+        Prompts the user for login credentials and validates them.
+        """
+        try:
+            user = self.auth_controller.login()  # Get the authenticated user
+            return user
+        except Exception as e:
+            print(f"An error occurred during user authentication: {str(e)}")
+            return None
 
     def run(self):
-        while self.running:
-            result = DisplayMenu.display_menu()
-            self.handle_choice(result)
+        try:
+            user = self.authenticate_user()  # Authenticate user
+            if user:
+                self.display_menu(user)
+        except Exception as e:
+            print(f"An error occurred during the system run: {str(e)}")
 
-    def handle_choice(self, choice):
-        if choice == "1":
-            self.member_controller.manage_member()
-        elif choice == "2":
-            self.workout_zone_controller.manage_zones()
-        elif choice == "3":
-            AppointmentController.manage_appointments()
-        elif choice == "4":
-            PaymentController.process_payments()
-        elif choice == "5":
-            AttendanceController.check_in()
-        elif choice == "6":
-            StaffController.manage_staff()
-        elif choice == "7":
-            ReportController.generate_reports()
-        elif choice == "8":
-            self.gym_location_controller.manage_locations()
-        elif choice == "9":
-            print("Exiting the system. Goodbye!")
-            self.running = False
-        else:
-            print("Invalid choice. Please try again.")
+    def display_menu(self, user):
+        """
+        Displays the menu based on the user's role.
+        """
+        try:
+            self.auth_controller.display_menu_based_on_role(user)  # Show the role-based menu
+        except Exception as e:
+            print(f"An error occurred while displaying the menu: {str(e)}")

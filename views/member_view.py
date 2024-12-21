@@ -27,12 +27,7 @@ class MemberView:
 
     @staticmethod
     def get_member_id_for_update():
-        while True:
-            try:
-                member_id = int(input("Enter Member ID to update: "))
-                return member_id
-            except ValueError:
-                print("Invalid input. Please enter a valid integer.")
+        return input("Enter Member ID to update: ")
 
     @staticmethod
     def display_member_update_prompt(member):
@@ -53,10 +48,7 @@ class MemberView:
 
     @staticmethod
     def display_member_list(member):
-        print(
-            f"ID: {member.id}, Name: {member.name}, "
-            f"Membership: {member.membership_type}, Gym Location: {member.gym_location_id}"
-        )
+        print(f"ID: {member.id}, Name: {member.name}, Membership: {member.membership_type}, Gym Location: {member.gym_location_id}")
 
     @staticmethod
     def display_membership_type_prompt():

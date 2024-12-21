@@ -1,46 +1,60 @@
-from views.gym_location_view import GymLocationView
+# controllers/gym_location_controller.py
 from models.gym_location import GymLocation
-from models.enums import CityEnum, CountryEnum
+from views.gym_location_view import GymLocationView
 
 class GymLocationController:
-    def __init__(self):
-        self.locations = []
-
-    def manage_locations(self):
+    @staticmethod
+    def manage_locations():
         while True:
             choice = GymLocationView.display_gym_location_menu()
+
             if choice == "1":
-                self.add_location()
+                GymLocationController.add_gym_location()
             elif choice == "2":
-                GymLocationView.display_locations(self.locations)
+                GymLocationController.list_gym_locations()
             elif choice == "3":
-                self.select_location()
+                GymLocationController.update_gym_location()
             elif choice == "4":
+                GymLocationView.display_return_to_main_menu()
                 break
             else:
-                print("Invalid choice. Please try again.")
+                GymLocationView.display_invalid_choice()
 
-    def add_location(self):
-        location_data = GymLocationView.get_new_location_input()
-        if location_data:
-            location_id, location_name, city_name, country_name = location_data
-            try:
-                city = CityEnum[city_name.upper()]
-                country = CountryEnum[country_name.upper()]
-                new_location = GymLocation(location_id, location_name, city, country)
-                self.locations.append(new_location)
-                print("New gym location added successfully!")
-            except KeyError:
-                print("Invalid city or country entered.")
+    @staticmethod
+    def add_gym_location():
+        name = GymLocationView.get_gym_location_name()
+        address = GymLocationView.get_address()
+        city = GymLocationView.get_city()
+        country = GymLocationView.get_country()
 
-    def select_location(self):
-        GymLocationView.display_locations(self.locations)
-        location_id = GymLocationView.select_location()
-        if location_id is not None:
-            selected_location = next(
-                (loc for loc in self.locations if loc.get_location_id() == location_id), None
-            )
-            if selected_location:
-                print(f"Selected Gym Location: {selected_location.get_location_name()}")
-            else:
-                print("Location not found.")
+        gym_location = GymLocation(name=name, address=address, city=city, country=country)
+        GymLocationView.display_gym_location_added_success(gym_location)
+
+    @staticmethod
+    def list_gym_locations():
+        locations = GymLocation.get_all()
+        if not locations:
+            GymLocationView.display_no_gym_locations_found()
+        else:
+            for location in locations:
+                GymLocationView.display_gym_location_list(location)
+
+    @staticmethod
+    def update_gym_location():
+        location_id = GymLocationView.get_gym_location_id_for_update()
+        location = GymLocation.get_by_id(location_id)
+
+        if not location:
+            GymLocationView.display_gym_location_not_found()
+        else:
+            GymLocationView.display_gym_location_update_prompt(location)
+            name = GymLocationView.get_new_value(location.name, "Name")
+            address = GymLocationView.get_new_value(location.address, "Address")
+            city = GymLocationView.get_new_value(location.city, "City")
+            country = GymLocationView.get_new_value(location.country, "Country")
+
+            location.name = name
+            location.address = address
+            location.city = city
+            location.country = country
+            GymLocationView.display_gym_location_updated_success(location.id)

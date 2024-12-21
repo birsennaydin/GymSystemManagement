@@ -1,24 +1,37 @@
-from models.attedance import Attendance
+# controllers/attendance_controller.py
+from models.attendance import Attendance
+from views.attendance_view import AttendanceView
 
 class AttendanceController:
-    attendance_records = []
-
     @staticmethod
     def check_in():
-        member_id = input("Enter member ID: ").strip()
-        date = input("Enter date (YYYY-MM-DD): ").strip()
-        zone = input("Enter workout zone: ").strip()
-        check_in_time = input("Enter check-in time (HH:MM): ").strip()
+        while True:
+            choice = AttendanceView.display_attendance_menu()
 
-        new_record = Attendance(member_id, date, zone, check_in_time)
-        AttendanceController.attendance_records.append(new_record)
-        print(f"Member {member_id} checked in successfully!")
+            if choice == "1":
+                AttendanceController.add_attendance()
+            elif choice == "2":
+                AttendanceController.list_attendance()
+            elif choice == "3":
+                AttendanceView.display_return_to_main_menu()
+                break
+            else:
+                AttendanceView.display_invalid_choice()
+
+    @staticmethod
+    def add_attendance():
+        member_id = AttendanceView.get_member_id()
+        class_id = AttendanceView.get_class_id()
+        status = AttendanceView.get_status()
+
+        attendance = Attendance(member_id=member_id, class_id=class_id, attendance_date="2024-12-20", status=status)
+        AttendanceView.display_attendance_success(attendance)
 
     @staticmethod
     def list_attendance():
-        if not AttendanceController.attendance_records:
-            print("No attendance records found.")
-            return
-        print("\nAttendance Records:")
-        for record in AttendanceController.attendance_records:
-            print(record)
+        attendance_records = Attendance.get_all()
+        if not attendance_records:
+            AttendanceView.display_no_attendance_found()
+        else:
+            for record in attendance_records:
+                AttendanceView.display_attendance_record(record)

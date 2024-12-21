@@ -1,39 +1,39 @@
+# controllers/appointment_controller.py
 from models.appointment import Appointment
+from views.appointment_view import AppointmentView
 
 class AppointmentController:
-    def __init__(self):
-        self.appointments = []
+    @staticmethod
+    def manage_appointments():
+        while True:
+            choice = AppointmentView.display_appointment_menu()
 
-    def add_appointment(self):
-        print("Enter new appointment details:")
-        appointment_id = int(input("Appointment ID (integer): "))
-        member_id = int(input("Member ID (integer): "))
-        appointment_type = input("Appointment Type (Personal Training/Group Class/Nutrition Consultation): ")
-        appointment_date = input("Appointment Date (YYYY-MM-DD): ")
+            if choice == "1":
+                AppointmentController.add_appointment()
+            elif choice == "2":
+                AppointmentController.list_appointments()
+            elif choice == "3":
+                AppointmentView.display_return_to_main_menu()
+                break
+            else:
+                AppointmentView.display_invalid_choice()
 
-        new_appointment = Appointment(appointment_id, member_id, appointment_type, appointment_date)
-        self.appointments.append(new_appointment)
-        print(f"Appointment for member {member_id} added successfully!")
+    @staticmethod
+    def add_appointment():
+        member_id = AppointmentView.get_member_id()
+        trainer_id = AppointmentView.get_trainer_id()
+        appointment_date = AppointmentView.get_appointment_date()
+        appointment_type = AppointmentView.get_appointment_type()
+        status = AppointmentView.get_status()
 
-    def update_appointment(self, appointment_id):
-        appointment = self.get_appointment_by_id(appointment_id)
-        if appointment:
-            print(f"Updating details for appointment {appointment.get_appointment_id()}:")
-            appointment.set_appointment_type(input(f"New Appointment Type (current: {appointment.get_appointment_type()}): ") or appointment.get_appointment_type())
-            appointment.set_appointment_date(input(f"New Appointment Date (current: {appointment.get_appointment_date()}): ") or appointment.get_appointment_date())
-            print(f"Appointment {appointment_id} updated successfully!")
+        appointment = Appointment(member_id=member_id, trainer_id=trainer_id, date=appointment_date, type=appointment_type, status=status)
+        AppointmentView.display_appointment_success(appointment)
+
+    @staticmethod
+    def list_appointments():
+        appointments = Appointment.get_all()
+        if not appointments:
+            AppointmentView.display_no_appointments_found()
         else:
-            print("Appointment not found!")
-
-    def get_appointment_by_id(self, appointment_id):
-        for appointment in self.appointments:
-            if appointment.get_appointment_id() == appointment_id:
-                return appointment
-        return None
-
-    def list_appointments(self):
-        if not self.appointments:
-            print("No appointments found.")
-            return
-        for appointment in self.appointments:
-            print(f"ID: {appointment.get_appointment_id()}, Member ID: {appointment.get_member_id()}, Date: {appointment.get_appointment_date()}")
+            for appointment in appointments:
+                AppointmentView.display_appointment_list(appointment)

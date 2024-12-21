@@ -1,3 +1,4 @@
+# models/enums.py
 from enum import Enum
 
 class MembershipType(Enum):
@@ -6,9 +7,15 @@ class MembershipType(Enum):
     TRIAL = 'Trial'
 
 class StaffRole(Enum):
-    MANAGER = 'Manager'
-    TRAINER = 'Trainer'
-    CLEANER = 'Cleaner'
+    MANAGER = 'MANAGER'
+    TRAINER = 'TRAINER'
+    ATTENDANT = 'ATTENDANT'
+
+class UserRole(Enum):
+    MANAGER = 'MANAGER'  # Admin ve Manager aynı yetkilerle Manager rolüne döndü
+    TRAINER = 'TRAINER'
+    ATTENDANT = 'ATTENDANT'
+    MEMBER = 'MEMBER'
 
 class SubscriptionType(Enum):
     MONTHLY = "Monthly"

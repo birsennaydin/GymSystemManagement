@@ -1,61 +1,55 @@
+# controllers/workout_zone_controller.py
 from models.workout_zone import WorkoutZone
 from views.workout_zone_view import WorkoutZoneView
 
 class WorkoutZoneController:
-    def __init__(self):
-        self.zones = []
-
-    def manage_zones(self):
+    @staticmethod
+    def manage_zones():
         while True:
             choice = WorkoutZoneView.display_workout_zone_menu()
 
             if choice == "1":
-                self.add_zone()
+                WorkoutZoneController.add_workout_zone()
             elif choice == "2":
-                self.list_zones()
+                WorkoutZoneController.list_workout_zones()
             elif choice == "3":
-                zone_id = WorkoutZoneView.get_zone_id_for_update()
-                self.update_zone(zone_id)
+                WorkoutZoneController.update_workout_zone()
             elif choice == "4":
                 WorkoutZoneView.display_return_to_main_menu()
                 break
             else:
                 WorkoutZoneView.display_invalid_choice()
 
-    def add_zone(self):
-        WorkoutZoneView.display_workout_zone_details_prompt()
-        zone_id = WorkoutZoneView.get_zone_id()
-        zone_name = WorkoutZoneView.get_zone_name()
-        equipment = WorkoutZoneView.get_zone_equipment()
-        attendant_name = WorkoutZoneView.get_zone_attendant()
+    @staticmethod
+    def add_workout_zone():
+        name = WorkoutZoneView.get_workout_zone_name()
+        zone_type = WorkoutZoneView.get_zone_type()
+        gym_location = WorkoutZoneView.get_gym_location()
 
-        new_zone = WorkoutZone(zone_id, zone_name, equipment, attendant_name)
-        self.zones.append(new_zone)
-        WorkoutZoneView.display_zone_added_success(zone_name)
+        workout_zone = WorkoutZone(name=name, zone_type=zone_type, gym_location_id=gym_location)
+        WorkoutZoneView.display_workout_zone_added_success(workout_zone)
 
-    def update_zone(self, zone_id):
-        zone = self.get_zone_by_id(zone_id)
-        if zone:
-            print(f"Updating details for {zone.get_zone_name()}:")
-            zone.set_zone_name(input(f"New Zone Name (current: {zone.get_zone_name()}): ") or zone.get_zone_name())
-            zone.set_equipment(input(f"New Equipment (current: {', '.join(zone.get_equipment())}): ").split(
-                ',') or zone.get_equipment())
-            zone.set_attendant_name(
-                input(f"New Attendant Name (current: {zone.get_attendant_name()}): ") or zone.get_attendant_name())
-            print(f"Workout Zone {zone_id} updated successfully!")
+    @staticmethod
+    def list_workout_zones():
+        zones = WorkoutZone.get_all()
+        if not zones:
+            WorkoutZoneView.display_no_workout_zones_found()
         else:
-            print("Zone not found!")
+            for zone in zones:
+                WorkoutZoneView.display_workout_zone_list(zone)
 
-    def get_zone_by_id(self, zone_id):
-        for zone in self.zones:
-            if zone.get_zone_id() == zone_id:
-                return zone
-        return None
+    @staticmethod
+    def update_workout_zone():
+        zone_id = WorkoutZoneView.get_workout_zone_id_for_update()
+        zone = WorkoutZone.get_by_id(zone_id)
 
-    def list_zones(self):
-        if not self.zones:
-            print("No zones found.")
-            return
-        for zone in self.zones:
-            print(
-                f"ID: {zone.get_zone_id()}, Name: {zone.get_zone_name()}, Equipment: {', '.join(zone.get_equipment())}")
+        if not zone:
+            WorkoutZoneView.display_workout_zone_not_found()
+        else:
+            WorkoutZoneView.display_workout_zone_update_prompt(zone)
+            name = WorkoutZoneView.get_new_value(zone.name, "Name")
+            zone_type = WorkoutZoneView.get_new_value(zone.zone_type, "Zone Type")
+
+            zone.name = name
+            zone.zone_type = zone_type
+            WorkoutZoneView.display_workout_zone_updated_success(zone.id)

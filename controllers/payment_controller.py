@@ -1,60 +1,43 @@
+# controllers/payment_controller.py
 from models.payment import Payment
-from models.enums import SubscriptionType
-
+from views.payment_view import PaymentView
 
 class PaymentController:
-    def __init__(self):
-        self.payments = []
+    @staticmethod
+    def process_payments():
+        while True:
+            choice = PaymentView.display_payment_menu()
 
-    def add_payment(self):
-        print("Enter new payment details:")
-        payment_id = int(input("Payment ID (integer): "))
-        member_id = int(input("Member ID (integer): "))
-        amount = float(input("Amount (float): "))
-        payment_date = input("Payment Date (YYYY-MM-DD): ")
-        subscription_type = self.get_subscription_type()
+            if choice == "1":
+                PaymentController.add_payment()
+            elif choice == "2":
+                PaymentController.list_payments()
+            elif choice == "3":
+                PaymentView.display_return_to_main_menu()
+                break
+            else:
+                PaymentView.display_invalid_choice()
 
-        new_payment = Payment(payment_id, member_id, amount, payment_date, subscription_type)
-        self.payments.append(new_payment)
-        print(f"Payment for member {member_id} added successfully!")
+    @staticmethod
+    def add_payment():
+        member_id = PaymentView.get_member_id()
+        amount = PaymentView.get_payment_amount()
+        payment_method = PaymentView.get_payment_method()
+        subscription_plan = PaymentView.get_subscription_plan()
 
-    def update_payment(self, payment_id):
-        payment = self.get_payment_by_id(payment_id)
-        if payment:
-            print(f"Updating details for payment {payment.get_payment_id()}:")
-            payment.set_amount(float(input(f"New Amount (current: {payment.get_amount()}): ") or payment.get_amount()))
-            payment.set_payment_date(
-                input(f"New Payment Date (current: {payment.get_payment_date()}): ") or payment.get_payment_date())
-            payment.set_subscription_type(self.get_subscription_type() or payment.get_subscription_type())
-            print(f"Payment {payment_id} updated successfully!")
+        payment = Payment(
+            member_id=member_id, 
+            amount=amount, 
+            payment_method=payment_method, 
+            subscription_plan=subscription_plan
+        )
+        PaymentView.display_payment_success(payment)
+
+    @staticmethod
+    def list_payments():
+        payments = Payment.get_all()
+        if not payments:
+            PaymentView.display_no_payments_found()
         else:
-            print("Payment not found!")
-
-    def get_payment_by_id(self, payment_id):
-        for payment in self.payments:
-            if payment.get_payment_id() == payment_id:
-                return payment
-        return None
-
-    def list_payments(self):
-        if not self.payments:
-            print("No payments found.")
-            return
-        for payment in self.payments:
-            print(f"ID: {payment.get_payment_id()}, Amount: {payment.get_amount()}, Date: {payment.get_payment_date()}")
-
-    def get_subscription_type(self):
-        print("Choose Subscription Type:")
-        print("1. Monthly")
-        print("2. Quarterly")
-        print("3. Annual")
-        choice = input("Enter choice (1/2/3): ")
-        if choice == '1':
-            return SubscriptionType.MONTHLY
-        elif choice == '2':
-            return SubscriptionType.QUARTERLY
-        elif choice == '3':
-            return SubscriptionType.ANNUAL
-        else:
-            print("Invalid choice, defaulting to Monthly.")
-            return SubscriptionType.MONTHLY
+            for payment in payments:
+                PaymentView.display_payment_list(payment)

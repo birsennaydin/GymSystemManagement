@@ -1,47 +1,62 @@
+# views/gym_location_view.py
 class GymLocationView:
     @staticmethod
     def display_gym_location_menu():
-        print("\nGym Location Management:")
-        print("1. Add a new gym location")
-        print("2. List all gym locations")
-        print("3. Select a gym location")
-        print("4. Return to main menu")
-
+        print("\nGym Location Management Menu")
+        print("1. Add Gym Location")
+        print("2. List Gym Locations")
+        print("3. Update Gym Location")
+        print("4. Back to Main Menu")
         return input("Enter your choice: ").strip()
 
     @staticmethod
-    def get_new_location_input():
-        try:
-            location_id = int(input("Enter location ID: "))
-            location_name = input("Enter location name: ")
-            print("Available cities: [London, Manchester, Birmingham]")
-            city = input("Enter city: ").strip()
-            print("Available countries: [UK, USA, Canada]")
-            country = input("Enter country: ").strip()
-            return location_id, location_name, city, country
-        except ValueError as e:
-            print(f"Error: {e}")
-            return None
+    def get_gym_location_name():
+        return input("Enter Gym Location Name: ")
 
     @staticmethod
-    def display_locations(locations):
-        if not locations:
-            print("No gym locations available.")
-            return
-
-        print("Available Gym Locations:")
-        for location in locations:
-            print(
-                f"ID: {location.get_location_id()}, "
-                f"Name: {location.get_location_name()}, "
-                f"City: {location.get_city().value}, "
-                f"Country: {location.get_country().value}"
-            )
+    def get_address():
+        return input("Enter Address: ")
 
     @staticmethod
-    def select_location():
-        try:
-            return int(input("Enter the ID of the location you want to select: "))
-        except ValueError:
-            print("Invalid input. Please enter a valid location ID.")
-            return None
+    def get_city():
+        return input("Enter City: ")
+
+    @staticmethod
+    def get_country():
+        return input("Enter Country: ")
+
+    @staticmethod
+    def display_gym_location_added_success(gym_location):
+        print(f"Gym Location {gym_location.name} added successfully!")
+
+    @staticmethod
+    def display_gym_location_list(gym_location):
+        print(f"ID: {gym_location.id}, Name: {gym_location.name}, City: {gym_location.city}, Country: {gym_location.country}")
+
+    @staticmethod
+    def display_no_gym_locations_found():
+        print("No gym locations found.")
+
+    @staticmethod
+    def get_gym_location_id_for_update():
+        return input("Enter Gym Location ID to update: ")
+
+    @staticmethod
+    def display_gym_location_update_prompt(location):
+        print(f"Updating details for {location.name}:")
+
+    @staticmethod
+    def get_new_value(current_value, prompt):
+        return input(f"{prompt} (current: {current_value}): ") or current_value
+
+    @staticmethod
+    def display_gym_location_updated_success(location_id):
+        print(f"Gym Location {location_id} updated successfully!")
+
+    @staticmethod
+    def display_gym_location_not_found():
+        print("Gym Location not found!")
+
+    @staticmethod
+    def display_invalid_choice():
+        print("Invalid choice. Please try again.")

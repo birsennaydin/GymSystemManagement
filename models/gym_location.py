@@ -1,3 +1,4 @@
+# models/gym_location.py
 from models.enums import CityEnum, CountryEnum
 
 class GymLocation:
@@ -14,7 +15,7 @@ class GymLocation:
 
         self.name = name
         self.address = address
-        self.city = city
+        self.city = city  # Enum'dan gelen city değeri
         self.country = country
         self.manager_id = manager_id
 
@@ -51,6 +52,7 @@ class GymLocation:
 
     @city.setter
     def city(self, value):
+        print(f"City: {value} KEYS: {CityEnum.__members__}")
         if value not in CityEnum.__members__:
             raise ValueError(f"Invalid city. Please choose from {', '.join(CityEnum.__members__.keys())}.")
         self._city = value
@@ -82,3 +84,23 @@ class GymLocation:
     @classmethod
     def get_by_id(cls, id):
         return next((location for location in cls.locations if location.id == id), None)
+
+    @classmethod
+    def initialize_default_locations(cls):
+        if not cls.locations:
+            cls.locations.append(GymLocation(
+                name="Downtown Gym",
+                address="123 Main St",
+                city="LONDON",
+                country="UNITED_KINGDOM",
+                manager_id=1
+            ))
+            cls.locations.append(GymLocation(
+                name="City Center Gym",
+                address="456 Market St",
+                city="NEW_YORK",
+                country="USA",
+                manager_id=2
+            ))
+
+GymLocation.initialize_default_locations()
