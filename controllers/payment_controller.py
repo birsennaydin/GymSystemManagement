@@ -1,10 +1,11 @@
 # controllers/payment_controller.py
+from controllers.auth_controller import AuthController
 from models.payment import Payment
 from views.payment_view import PaymentView
 
 class PaymentController:
     @staticmethod
-    def process_payments():
+    def process_payments(user):
         while True:
             choice = PaymentView.display_payment_menu()
 
@@ -14,7 +15,7 @@ class PaymentController:
                 PaymentController.list_payments()
             elif choice == "3":
                 PaymentView.display_return_to_main_menu()
-                break
+                return AuthController.display_menu_based_on_role(user)
             else:
                 PaymentView.display_invalid_choice()
 

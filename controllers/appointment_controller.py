@@ -1,10 +1,11 @@
 # controllers/appointment_controller.py
+from controllers.auth_controller import AuthController
 from models.appointment import Appointment
 from views.appointment_view import AppointmentView
 
 class AppointmentController:
     @staticmethod
-    def manage_appointments():
+    def manage_appointments(user):
         while True:
             choice = AppointmentView.display_appointment_menu()
 
@@ -14,7 +15,7 @@ class AppointmentController:
                 AppointmentController.list_appointments()
             elif choice == "3":
                 AppointmentView.display_return_to_main_menu()
-                break
+                return AuthController.display_menu_based_on_role(user)
             else:
                 AppointmentView.display_invalid_choice()
 

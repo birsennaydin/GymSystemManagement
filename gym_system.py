@@ -7,6 +7,7 @@ from controllers.payment_controller import PaymentController
 from controllers.attendance_controller import AttendanceController
 from controllers.staff_controller import StaffController
 from views.display_menu import DisplayMenu  # Import DisplayMenu from views
+from controllers.user_controller import UserController
 
 class GymSystem:
     def __init__(self):
@@ -18,6 +19,7 @@ class GymSystem:
         self.payment_controller = PaymentController()
         self.attendance_controller = AttendanceController()
         self.staff_controller = StaffController()
+        self.user_controller = UserController()  # Add UserController here
 
     def authenticate_user(self):
         """

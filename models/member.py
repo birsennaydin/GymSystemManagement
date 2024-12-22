@@ -14,7 +14,7 @@ class Member:
         self._membership_type = None
         self._health_info = None
         self._status = None
-        self._gym_location_id = None  # Gym Location ID olarak ilişkilendirilecek
+        self._gym_location_id = None  # Gym Location ID to be associated
 
         self.membership_id = membership_id
         self.name = name
@@ -23,7 +23,7 @@ class Member:
         self.membership_type = membership_type
         self.health_info = health_info
         self.status = status
-        self.gym_location_id = gym_location_id  # Gym Location ID burada geçiyor
+        self.gym_location_id = gym_location_id  # Gym Location ID here
 
         Member.id_counter += 1
         Member.members.append(self)
@@ -49,3 +49,11 @@ class Member:
     @classmethod
     def get_by_id(cls, id):
         return next((member for member in cls.members if member.id == id), None)
+
+    @classmethod
+    def get_by_email(cls, email):
+        """
+        Returns a member by their email address.
+        """
+        # Searching for the member by email in the class members list
+        return next((member for member in cls.members if member.email == email), None)

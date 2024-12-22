@@ -1,10 +1,11 @@
 # controllers/report_controller.py
+from controllers.auth_controller import AuthController
 from models.report import Report
 from views.report_view import ReportView
 
 class ReportController:
     @staticmethod
-    def generate_reports():
+    def generate_reports(user):
         while True:
             choice = ReportView.display_report_menu()
 
@@ -18,7 +19,7 @@ class ReportController:
                 ReportController.generate_trainer_performance_report()
             elif choice == "5":
                 ReportView.display_return_to_main_menu()
-                break
+                return AuthController.display_menu_based_on_role(user)
             else:
                 ReportView.display_invalid_choice()
 

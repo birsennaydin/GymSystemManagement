@@ -15,7 +15,8 @@ class DisplayMenu:
         print("6. Staff Management")
         print("7. Reports")
         print("8. Manage Gym Locations")
-        print("9. Logout")
+        print("9. User Management")  # New option for managing users
+        print("10. Logout")
         return input("Enter your choice: ").strip()
 
     @staticmethod

@@ -1,10 +1,11 @@
 # controllers/attendance_controller.py
+from controllers.auth_controller import AuthController
 from models.attendance import Attendance
 from views.attendance_view import AttendanceView
 
 class AttendanceController:
     @staticmethod
-    def check_in():
+    def check_in(user):
         while True:
             choice = AttendanceView.display_attendance_menu()
 
@@ -14,7 +15,7 @@ class AttendanceController:
                 AttendanceController.list_attendance()
             elif choice == "3":
                 AttendanceView.display_return_to_main_menu()
-                break
+                return AuthController.display_menu_based_on_role(user)
             else:
                 AttendanceView.display_invalid_choice()
 

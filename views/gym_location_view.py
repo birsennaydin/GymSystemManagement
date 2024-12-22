@@ -14,6 +14,10 @@ class GymLocationView:
         return input("Enter Gym Location Name: ")
 
     @staticmethod
+    def display_return_to_main_menu():
+        print("Returning to Main Menu...")
+
+    @staticmethod
     def get_address():
         return input("Enter Address: ")
 

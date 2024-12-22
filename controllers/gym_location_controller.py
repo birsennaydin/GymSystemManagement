@@ -1,10 +1,11 @@
 # controllers/gym_location_controller.py
+from controllers.auth_controller import AuthController
 from models.gym_location import GymLocation
 from views.gym_location_view import GymLocationView
 
 class GymLocationController:
     @staticmethod
-    def manage_locations():
+    def manage_locations(user):
         while True:
             choice = GymLocationView.display_gym_location_menu()
 
@@ -16,7 +17,7 @@ class GymLocationController:
                 GymLocationController.update_gym_location()
             elif choice == "4":
                 GymLocationView.display_return_to_main_menu()
-                break
+                return AuthController.display_menu_based_on_role(user)
             else:
                 GymLocationView.display_invalid_choice()
 

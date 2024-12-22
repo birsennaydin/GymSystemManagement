@@ -1,10 +1,11 @@
 # controllers/workout_zone_controller.py
+from controllers.auth_controller import AuthController
 from models.workout_zone import WorkoutZone
 from views.workout_zone_view import WorkoutZoneView
 
 class WorkoutZoneController:
     @staticmethod
-    def manage_zones():
+    def manage_zones(user):
         while True:
             choice = WorkoutZoneView.display_workout_zone_menu()
 
@@ -16,7 +17,7 @@ class WorkoutZoneController:
                 WorkoutZoneController.update_workout_zone()
             elif choice == "4":
                 WorkoutZoneView.display_return_to_main_menu()
-                break
+                return AuthController.display_menu_based_on_role(user)
             else:
                 WorkoutZoneView.display_invalid_choice()
 

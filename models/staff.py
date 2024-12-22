@@ -31,8 +31,9 @@ class Staff:
 
     @role.setter
     def role(self, value):
-        if value not in ['Admin', 'Trainer', 'Attendant', 'Member']:
-            raise ValueError("Invalid role. Please choose from Admin, Trainer, Attendant, Member.")
+        print(f"Staff Role detail: {value}")
+        if value not in ['MANAGER', 'TRAINER', 'ATTENDANT']:
+            raise ValueError("Invalid role. Please choose from Admin, Trainer, Attendant.")
         self._role = value
 
     @classmethod

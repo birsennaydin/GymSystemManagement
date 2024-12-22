@@ -52,7 +52,6 @@ class GymLocation:
 
     @city.setter
     def city(self, value):
-        print(f"City: {value} KEYS: {CityEnum.__members__}")
         if value not in CityEnum.__members__:
             raise ValueError(f"Invalid city. Please choose from {', '.join(CityEnum.__members__.keys())}.")
         self._city = value
@@ -79,11 +78,34 @@ class GymLocation:
 
     @classmethod
     def get_all(cls):
+        """
+        Returns all gym locations.
+        """
         return cls.locations
 
     @classmethod
     def get_by_id(cls, id):
+        """
+        Returns a gym location by its ID.
+        """
         return next((location for location in cls.locations if location.id == id), None)
+
+    @classmethod
+    def get_selected_gym_location(cls):
+        """
+        Allows the user to select a gym location from a list of available locations.
+        """
+        print("\nAvailable Gym Locations:")
+        for idx, location in enumerate(cls.locations, 1):
+            print(f"{idx}. {location.name} - {location.city}, {location.country}")
+        choice = input(f"Select a gym location (1-{len(cls.locations)}): ").strip()
+
+        try:
+            selected_location = cls.locations[int(choice) - 1]
+            return selected_location.id
+        except (ValueError, IndexError):
+            print("Invalid selection. Please try again.")
+            return None
 
     @classmethod
     def initialize_default_locations(cls):

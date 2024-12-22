@@ -6,11 +6,16 @@ class User:
     id_counter = 1
     users = []  # This will hold all users, including the default user
 
-    def __init__(self, email, password, role, associated_id):
+    def __init__(self, email, password, role):
         try:
-            # Ensure role is valid and convert it to the enum if it's a string
-            if isinstance(role, str):
-                role = UserRole[role.upper()]  # Convert string role to enum
+            # If role is a string, convert it to the corresponding enum
+            if isinstance(role, UserRole):
+                try:
+                    print(f"Save Role INITIALIZE000: {role}, {role.value}")
+                    role = role.value
+                except KeyError:
+                    raise ValueError(
+                        f"Invalid role '{role}'. Please choose from {', '.join(UserRole.__members__.keys())}.")
 
             # Check if the email already exists
             if User.get_by_email(email):
@@ -20,12 +25,11 @@ class User:
             self._email = None
             self._password = None
             self._role = None
-            self._associated_id = None  # ID of the associated Staff or Member
 
             self.email = email
             self.password = password
+            print(f"Save PASSword INITIALIZE: {self.password}, {self.email}")
             self.role = role  # Manager, Trainer, Attendant, Member
-            self.associated_id = associated_id  # Staff ID or Member ID
 
             User.id_counter += 1
             User.users.append(self)  # Add the new user to the users list
@@ -52,6 +56,7 @@ class User:
     def password(self, value):
         if not value:
             raise ValueError("Password cannot be empty.")
+        print(f"Password 000: {value}")
         self._password = value
 
     @property
@@ -60,17 +65,18 @@ class User:
 
     @role.setter
     def role(self, value):
-        if value not in UserRole.__members__:
-            raise ValueError(f"Invalid role. Please choose from {', '.join(UserRole.__members__.keys())}.")
-        self._role = value
-
-    @property
-    def associated_id(self):
-        return self._associated_id
-
-    @associated_id.setter
-    def associated_id(self, value):
-        self._associated_id = value
+        # If the value is an enum instance (UserRole), assign it directly
+        print(f"SETTER ROLE: {value}")
+        if isinstance(value, UserRole):
+            self._role = value
+        elif isinstance(value, str):  # If it's a string, convert it to the enum
+            try:
+                self._role = UserRole[value.upper()]  # Convert string to the correct UserRole enum
+            except KeyError:
+                raise ValueError(
+                    f"Invalid role '{value}'. Please choose from {', '.join(UserRole.__members__.keys())}.")
+        else:
+            raise ValueError(f"Invalid role '{value}'. Please choose from {', '.join(UserRole.__members__.keys())}.")
 
     @classmethod
     def get_by_email(cls, email):
@@ -97,22 +103,46 @@ class User:
     @classmethod
     def create_default_user(cls):
         """
-        Creates a default Manager user when the application first runs.
-        Adds the default user to the users list.
+        Creates default users when the application first runs.
+        Adds the default users to the users list automatically.
         """
         try:
             # Check if users already exist to prevent duplicate creation
             if not cls.users:
-                default_user = User(
+                # Create the default users
+                User(
                     email="admin@stmarys.com",  # Admin's default email
                     password="admin123",  # Admin's default password
-                    role="MANAGER",  # Admin role as Manager
-                    associated_id=None  # No associated ID for Admin
+                    role="MANAGER"  # Admin role as Manager (string, will be converted to UserRole.MANAGER)
                 )
-                # Add the default user to the users list
-                cls.users.append(default_user)
-                print(f"Default user created: {default_user.email}")
+
+                User(
+                    email="trainer@stmarys.com",
+                    password="trainer123",
+                    role="TRAINER"
+                )
+
+                User(
+                    email="attendant@stmarys.com",
+                    password="attendant123",
+                    role="ATTENDANT"
+                )
+
+                User(
+                    email="member@stmarys.com",
+                    password="member123",
+                    role="MEMBER"
+                )
+
+                print("Default users created.")
             else:
-                print("Default user already exists.")
+                print("Default users already exist.")
         except Exception as e:
             print(f"Error occurred while creating default user: {str(e)}")
+
+    @classmethod
+    def get_all(cls):
+        """
+        Returns all users.
+        """
+        return cls.users
