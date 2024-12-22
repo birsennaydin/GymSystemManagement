@@ -1,5 +1,4 @@
 # controllers/member_controller.py
-from controllers.auth_controller import AuthController
 from views.member_view import MemberView
 from models.member import Member
 from models.gym_location import GymLocation
@@ -11,6 +10,7 @@ class MemberController:
         """
         Manages the member-related actions like add, update, delete, list.
         """
+        from controllers.auth_controller import AuthController
         while True:
             choice = MemberView.display_member_menu()
 

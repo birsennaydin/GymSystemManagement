@@ -1,9 +1,5 @@
 # controllers/user_controller.py
-from controllers.auth_controller import AuthController
 from models.user import User
-from models.staff import Staff
-from models.member import Member
-from models.gym_location import GymLocation  # Import GymLocation model
 from views.user_view import UserView
 
 class UserController:
@@ -12,6 +8,7 @@ class UserController:
         """
         Manages user-related actions like add, update, delete, and list.
         """
+        from controllers.auth_controller import AuthController
         while True:
             choice = UserView.display_user_menu()
             if choice == "1":  # List Users

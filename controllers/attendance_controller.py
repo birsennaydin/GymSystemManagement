@@ -1,11 +1,11 @@
 # controllers/attendance_controller.py
-from controllers.auth_controller import AuthController
 from models.attendance import Attendance
 from views.attendance_view import AttendanceView
 
 class AttendanceController:
     @staticmethod
     def check_in(user):
+        from controllers.auth_controller import AuthController
         while True:
             choice = AttendanceView.display_attendance_menu()
 

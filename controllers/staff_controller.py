@@ -1,5 +1,4 @@
 # controllers/staff_controller.py
-from controllers.auth_controller import AuthController
 from views.staff_view import StaffView  # Import StaffView for displaying staff menus
 from models.staff import Staff
 from models.enums import StaffRole
@@ -13,6 +12,7 @@ class StaffController:
         Manages the staff options such as add, update, list, etc.
         Displays the staff menu and handles user choices.
         """
+        from controllers.auth_controller import AuthController
         while True:
             # Display the staff management menu
             choice = StaffView.display_staff_menu()

@@ -1,11 +1,11 @@
 # controllers/report_controller.py
-from controllers.auth_controller import AuthController
 from models.report import Report
 from views.report_view import ReportView
 
 class ReportController:
     @staticmethod
     def generate_reports(user):
+        from controllers.auth_controller import AuthController
         while True:
             choice = ReportView.display_report_menu()
 

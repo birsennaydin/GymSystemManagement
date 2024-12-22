@@ -1,11 +1,11 @@
 # controllers/appointment_controller.py
-from controllers.auth_controller import AuthController
 from models.appointment import Appointment
 from views.appointment_view import AppointmentView
 
 class AppointmentController:
     @staticmethod
     def manage_appointments(user):
+        from controllers.auth_controller import AuthController
         while True:
             choice = AppointmentView.display_appointment_menu()
 

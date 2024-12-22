@@ -1,11 +1,11 @@
 # controllers/gym_location_controller.py
-from controllers.auth_controller import AuthController
 from models.gym_location import GymLocation
 from views.gym_location_view import GymLocationView
 
 class GymLocationController:
     @staticmethod
     def manage_locations(user):
+        from controllers.auth_controller import AuthController
         while True:
             choice = GymLocationView.display_gym_location_menu()
 
