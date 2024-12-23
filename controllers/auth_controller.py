@@ -91,7 +91,7 @@ class AuthController:
             if choice == "1":  # Member Management
                 MemberController.manage_member(user)
             elif choice == "2":  # Workout Zones
-                WorkoutZoneController.manage_zones(user)
+                WorkoutZoneController.manage_workout_zones(user)
             elif choice == "3":  # Appointments
                 AppointmentController.manage_appointments(user)
             elif choice == "4":  # Payments and Subscriptions
@@ -99,7 +99,8 @@ class AuthController:
             elif choice == "5":  # Attendance Tracking
                 AttendanceController.check_in(user)
             elif choice == "6":  # Staff Management
-                StaffController.manage_staff(user)
+                staff_controller = StaffController()  # Create an instance of StaffController
+                staff_controller.manage_staff(user)
             elif choice == "7":  # Reports
                 ReportController.generate_reports(user)
             elif choice == "8":  # Manage Gym Locations

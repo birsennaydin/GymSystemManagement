@@ -30,15 +30,50 @@ class StaffView:
         return input("Staff Name: ")
 
     @staticmethod
+    def get_staff_email():
+        """
+        Prompts for the staff email.
+        """
+        return input("Staff Email: ")
+
+    @staticmethod
+    def get_staff_phone():
+        """
+        Prompts for the staff phone number.
+        """
+        return input("Staff Phone: ")
+
+    @staticmethod
     def get_staff_role():
         """
-        Prompts for the staff role.
+        Prompts for the staff role and returns the role as a string.
         """
         print("Choose a role for the staff:")
-        print("1. Manager")
-        print("2. Trainer")
-        print("3. Attendant")
-        return input("Enter role choice (1/2/3): ").strip()
+        print("1. MANAGER")
+        print("2. TRAINER")
+        print("3. ATTENDANT")
+        role_choice = input("Enter role choice (1/2/3): ").strip()
+
+        # Convert the role_choice into the corresponding StaffRole enum
+        role_dict = {
+            "1": "MANAGER",
+            "2": "TRAINER",
+            "3": "ATTENDANT"
+        }
+
+        return role_dict.get(role_choice)
+
+    @staticmethod
+    def get_gym_location(gym_locations):
+        """
+        Prompts for the staff's gym location.
+        """
+        print("Select Gym Location:")
+        for idx, location in enumerate(gym_locations, 1):
+            print(f"{idx}. {location.name} - {location.city}")
+
+        location_choice = input("Enter choice: ").strip()
+        return gym_locations[int(location_choice) - 1].id
 
     @staticmethod
     def display_staff_added_success(name, role):
@@ -78,14 +113,19 @@ class StaffView:
         print("2. Trainer")
         print("3. Attendant")
         role_choice = input("Enter new role (1/2/3): ").strip()
-        return role_choice if role_choice else current_role
+        role_dict = {
+            "1": "MANAGER",
+            "2": "TRAINER",
+            "3": "ATTENDANT"
+        }
+        return role_dict.get(role_choice)
 
     @staticmethod
-    def display_staff_updated_success(staff_id, name, role):
+    def display_staff_updated_success(name, role, email):
         """
         Displays success message after updating a staff member.
         """
-        print(f"Staff {staff_id} updated to {name} with role {role}.")
+        print(f"Staff {email} updated to {name} with role {role}.")
 
     @staticmethod
     def display_no_staff_found():
@@ -103,7 +143,8 @@ class StaffView:
             print("No staff members to display.")
         else:
             for staff in staff_list:
-                print(f"ID: {staff.get_staff_id()}, Name: {staff.get_name()}, Role: {staff.get_role().name}")
+                print(
+                    f"ID: {staff.get_staff_id()}, Name: {staff.get_name()}, Role: {staff.get_role()}, Email: {staff.email}, Phone: {staff.phone}")
 
     @staticmethod
     def display_invalid_choice():

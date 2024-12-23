@@ -13,10 +13,10 @@ class Staff:
         self._gym_location_id = None
 
         self.name = name
-        self.role = role  # Role burada "Admin", "Trainer", "Attendant", "Member" olabilir
+        self.role = role
         self.email = email
         self.phone = phone
-        self.gym_location_id = gym_location_id
+        self.gym_location_id = gym_location_id  # Gym Location ID added here
 
         Staff.id_counter += 1
         Staff.staff_members.append(self)
@@ -31,10 +31,11 @@ class Staff:
 
     @role.setter
     def role(self, value):
-        print(f"Staff Role detail: {value}")
-        if value not in ['MANAGER', 'TRAINER', 'ATTENDANT']:
+        user_role = value.value
+        print(f"Staff Role detail: {user_role}")
+        if user_role not in ['MANAGER', 'TRAINER', 'ATTENDANT']:
             raise ValueError("Invalid role. Please choose from Admin, Trainer, Attendant.")
-        self._role = value
+        self._role = user_role
 
     @classmethod
     def get_all(cls):
@@ -43,3 +44,19 @@ class Staff:
     @classmethod
     def get_by_id(cls, id):
         return next((staff for staff in cls.staff_members if staff.id == id), None)
+
+    @classmethod
+    def get_by_role(cls, role):
+        """
+        Returns a list of staff members filtered by role.
+        """
+        return [staff for staff in cls.staff_members if staff.role == role]
+
+    def get_staff_id(self):
+        return self.id
+
+    def get_name(self):
+        return self.name
+
+    def get_role(self):
+        return self.role
