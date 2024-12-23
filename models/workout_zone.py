@@ -2,6 +2,8 @@ from models.gym_location import GymLocation
 from models.staff import Staff
 from models.promotions import Promotion
 from models.class_schedule import ClassSchedule  # Assuming we create this model later
+from views.workout_zone_view import WorkoutZoneView
+
 
 class WorkoutZone:
     id_counter = 1
@@ -62,3 +64,47 @@ class WorkoutZone:
     @classmethod
     def get_by_zone_type(cls, zone_type):
         return [zone for zone in cls.zones if zone.zone_type == zone_type]
+
+    @zone_type.setter
+    def zone_type(self, value):
+        """
+        Setter for the zone_type property.
+        Ensures the zone type is one of the valid options.
+        """
+        print(f"Zonetype setter: {value}")
+        valid_zone_types = ['Cardio', 'Strength', 'Yoga', 'Flexibility']
+        if value not in valid_zone_types:
+            raise ValueError(f"Invalid zone type. Please choose from {', '.join(valid_zone_types)}.")
+        self._zone_type = value
+
+    @staff_id.setter
+    def staff_id(self, value):
+        self._staff_id = value
+
+    def get_zone_type_name(self):
+        zone_types = {
+            "Cardio": "Cardio",
+            "Strength": "Strength",
+            "Yoga": "Yoga",
+            "Flexibility": "Flexibility"
+        }
+        print(f"Zone Type 76: {self.zone_type}")
+        return zone_types.get(str(self.zone_type), "Unknown")
+
+    def get_gym_location_name(self):
+        gym_location = GymLocation.get_by_id(self.gym_location_id)
+        return gym_location.name if gym_location else "Unknown"
+
+    @staticmethod
+    def list_workout_zones():
+        """
+        Lists all workout zones in the system with more meaningful information.
+        """
+        zones = WorkoutZone.get_all()
+        if zones:
+            for zone in zones:
+                # Display workout zone with names instead of raw IDs
+                print(
+                    f"ID: {zone.id}, Name: {zone.name}, Zone Type: {zone.get_zone_type_name()}, Gym Location: {zone.get_gym_location_name()}")
+        else:
+            WorkoutZoneView.display_no_workout_zones_found()

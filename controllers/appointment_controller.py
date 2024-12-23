@@ -1,5 +1,7 @@
 # controllers/appointment_controller.py
 from models.appointment import Appointment
+from models.member import Member
+from models.staff import Staff
 from views.appointment_view import AppointmentView
 
 class AppointmentController:
@@ -21,13 +23,22 @@ class AppointmentController:
 
     @staticmethod
     def add_appointment():
-        member_id = AppointmentView.get_member_id()
-        trainer_id = AppointmentView.get_trainer_id()
+        # Fetch all members and staff (trainers)
+        members = Member.get_all()  # Assuming you have a method to fetch all members
+        staff = Staff.get_by_role("TRAINER")  # Assuming you have a method to fetch staff with role 'TRAINER'
+
+        # Display member and trainer lists and get IDs
+        member_id = AppointmentView.get_member_id(members)  # Select member from the list
+        trainer_id = AppointmentView.get_trainer_id(staff)  # Select trainer from the list
+
+        # Get appointment details from the user
         appointment_date = AppointmentView.get_appointment_date()
         appointment_type = AppointmentView.get_appointment_type()
         status = AppointmentView.get_status()
 
-        appointment = Appointment(member_id=member_id, trainer_id=trainer_id, date=appointment_date, type=appointment_type, status=status)
+        # Create the new appointment
+        appointment = Appointment(member_id=member_id, trainer_id=trainer_id, date=appointment_date,
+                                  appointment_type=appointment_type, status=status)
         AppointmentView.display_appointment_success(appointment)
 
     @staticmethod
@@ -37,4 +48,9 @@ class AppointmentController:
             AppointmentView.display_no_appointments_found()
         else:
             for appointment in appointments:
-                AppointmentView.display_appointment_list(appointment)
+                # Fetch the Member and Trainer details based on their IDs
+                member = Member.get_by_id(appointment.member_id)
+                trainer = Staff.get_by_id(appointment.trainer_id)
+
+                # Pass the member and trainer names to the display function
+                AppointmentView.display_appointment_list(appointment, member.name, trainer.name)

@@ -20,20 +20,30 @@ class WorkoutZoneView:
 
     @staticmethod
     def get_zone_type():
+        """
+        Displays the available zone types and prompts the user to select one.
+        """
         print("Choose Zone Type:")
         print("1. Cardio")
         print("2. Strength")
         print("3. Yoga")
         print("4. Flexibility")
-        return input("Enter zone type (1/2/3/4): ")
+        choice = input("Enter zone type (1/2/3/4): ").strip()
+        zone_types = {
+            "1": "Cardio",
+            "2": "Strength",
+            "3": "Yoga",
+            "4": "Flexibility"
+        }
+        return zone_types.get(choice, "Unknown")
 
     @staticmethod
     def display_workout_zone_added_success(zone):
-        print(f"Workout Zone {zone.name} added successfully!")
+        print(f"Workout Zone {zone.name}, Zone type: {zone.zone_type} added successfully!")
 
     @staticmethod
     def display_workout_zone_list(zone):
-        print(f"ID: {zone.id}, Name: {zone.name}, Zone Type: {zone.zone_type}, Gym Location ID: {zone.gym_location_id}")
+        print(f"ID: {zone.id}, Name: {zone.name}, Zone Type: {zone.get_zone_type_name()}, Gym Location: {zone.get_gym_location_name()}")
 
     @staticmethod
     def display_no_workout_zones_found():
@@ -44,14 +54,25 @@ class WorkoutZoneView:
         return input("Enter Workout Zone ID to update: ")
 
     @staticmethod
+    def get_workout_staff_id_for_update():
+        return input("Select Staff ID for the attendant: ")
+
+    @staticmethod
     def display_workout_zone_update_prompt(zone):
+        """
+        Displays the current details of a workout zone to be updated.
+        """
         print(f"Updating details for {zone.name}:")
         print(f"Current Name: {zone.name}")
-        print(f"Current Zone Type: {zone.zone_type}")
+        print(f"Current Zone Type: {zone.get_zone_type_name()}")
 
     @staticmethod
     def get_new_value(current_value, prompt):
-        return input(f"{prompt} (current: {current_value}): ") or current_value
+        """
+        Prompts the user to update a value and returns the new value, or the current value if no update.
+        """
+        new_value = input(f"{prompt} (current: {current_value}): ").strip()
+        return new_value if new_value else current_value
 
     @staticmethod
     def display_workout_zone_updated_success(zone_id):
@@ -78,6 +99,18 @@ class WorkoutZoneView:
     @staticmethod
     def get_selected_gym_location():
         return input("Enter the number of the gym location: ")
+
+    @staticmethod
+    def display_staff_list(staff_list):
+        """
+        Displays the list of staff members.
+        """
+        if not staff_list:
+            print("No staff members to display.")
+        else:
+            for staff in staff_list:
+                print(
+                    f"ID: {staff.get_staff_id()}, Name: {staff.get_name()}, Role: {staff.get_role().name}, Email: {staff.email}, Phone: {staff.phone}")
 
     @staticmethod
     def display_class_schedule_menu():

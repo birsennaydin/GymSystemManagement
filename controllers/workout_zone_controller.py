@@ -36,9 +36,9 @@ class WorkoutZoneController:
         """
         name = WorkoutZoneView.get_workout_zone_name()
         zone_type = WorkoutZoneView.get_zone_type()
-
+        print(f"Save zone type: {zone_type}")
         # Get available gym locations
-        gym_locations = GymLocation.get_all()  # Fetch all gym locations
+        gym_locations = GymLocation.get_all()
         WorkoutZoneView.display_gym_locations(gym_locations)
 
         selected_location_idx = int(WorkoutZoneView.get_selected_gym_location()) - 1
@@ -50,14 +50,17 @@ class WorkoutZoneController:
         gym_location_id = gym_location.id  # Use the selected gym location's ID
 
         # Get available staff with TRAINER role only
-        staff = Staff.get_by_role("TRAINER")  # Fetch only staff with the TRAINER role
+        staff = Staff.get_by_role("TRAINER")
         if not staff:
             print("Error: No staff with TRAINER role available. Please ensure staff are assigned to this location.")
             return  # Return early if no trainer staff are available
 
-        staff_ids = [s.id for s in staff]  # Assuming you want the staff IDs to be associated with the zone
+        # List the staff with their details
+        staff_details = [(s.id, s.name, GymLocation.get_by_id(s.gym_location_id).name) for s in staff]
+        for staff_id, staff_name, gym_location in staff_details:
+            print(f"ID: {staff_id}, Name: {staff_name}, Gym Location: {gym_location}")
 
-        staff_id = int(input(f"Select Staff ID for the attendant (options: {staff_ids}): "))
+        staff_id = int(input("Select Staff ID for the attendant: "))
 
         # Create the new workout zone
         new_zone = WorkoutZone(
@@ -86,29 +89,46 @@ class WorkoutZoneController:
         """
         Updates an existing workout zone.
         """
-        zone_id = WorkoutZoneView.get_workout_zone_id_for_update()
-        zone = WorkoutZone.get_by_id(int(zone_id))
+        print("\nSelect a workout zone to update:")
+        WorkoutZoneController.list_workout_zones()  # List available workout zones
+        zone_id = WorkoutZoneView.get_workout_zone_id_for_update()  # Ask for zone ID
+        zone = WorkoutZone.get_by_id(int(zone_id))  # Fetch the selected zone
+        print(f"Zone23: {zone.id}, ZoneType: {zone.zone_type}")
 
         if zone:
             WorkoutZoneView.display_workout_zone_update_prompt(zone)
-            name = WorkoutZoneView.get_new_value(zone.name, "Name")
-            zone_type = WorkoutZoneView.get_new_value(zone.zone_type, "Zone Type")
+
+            # Get updated zone type with proper mapping
+            zone_type = WorkoutZoneView.get_zone_type()  # Fetch zone type using the updated method
+
+            # Ensure zone_type is valid before assignment
+            if zone_type not in ['Cardio', 'Strength', 'Yoga', 'Flexibility']:
+                print(
+                    f"Invalid zone type: {zone_type}. Zone type must be one of 'Cardio', 'Strength', 'Yoga', 'Flexibility'.")
+                return  # Exit if invalid zone type
 
             # Get available staff with TRAINER role only
-            staff = Staff.get_by_role("TRAINER")  # Fetch only staff with the TRAINER role
+            staff = Staff.get_by_role("TRAINER")
             if not staff:
                 print("Error: No staff with TRAINER role available. Please ensure staff are assigned to this location.")
                 return  # Return early if no trainer staff are available
 
-            staff_ids = [s.id for s in staff]  # Assuming you want the staff IDs to be associated with the zone
-            staff_id = int(input(f"Select Staff ID for the attendant (options: {staff_ids}): "))
+            # List the staff with their details
+            staff_details = [(s.id, s.name, GymLocation.get_by_id(s.gym_location_id).name) for s in staff]
+            for staff_id, staff_name, gym_location in staff_details:
+                print(f"ID: {staff_id}, Name: {staff_name}, Gym Location: {gym_location}")
+
+            staff_id = WorkoutZoneView.get_workout_staff_id_for_update()
+            print(f"Current zone type: {zone.zone_type}")
+            print(f"New zone type selected: {zone_type}")
 
             # Update the workout zone details
-            zone.name = name
-            zone.zone_type = zone_type
+            zone.zone_type = zone_type  # Update the zone type
+            print(f"ZOnee {staff_id}, {zone_type}")
             zone.staff_id = staff_id
+            print(f"ZOnee11 {zone.staff_id}")
 
-            WorkoutZoneView.display_workout_zone_updated_success(zone.id)
+            WorkoutZoneView.display_workout_zone_updated_success(zone.id)  # Display success message
         else:
             WorkoutZoneView.display_workout_zone_not_found()
 
