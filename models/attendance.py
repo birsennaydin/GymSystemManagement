@@ -61,9 +61,9 @@ class Attendance:
 
     @status.setter
     def status(self, value):
-        if value not in AttendanceStatusEnum.__members__:
+        if value not in [member.value for member in AttendanceStatusEnum]:
             raise ValueError(
-                f"Invalid attendance status. Please choose from {', '.join(AttendanceStatusEnum.__members__.keys())}.")
+                f"Invalid attendance status. Please choose from {', '.join([member.value for member in AttendanceStatusEnum])}.")
         self._status = value
 
     @classmethod

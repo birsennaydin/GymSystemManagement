@@ -39,3 +39,7 @@ class ClassSchedule:
     @classmethod
     def get_by_workout_zone(cls, workout_zone_id):
         return [schedule for schedule in cls.schedules if schedule.workout_zone_id == workout_zone_id]
+
+    @classmethod
+    def get_by_id(cls, id):
+        return next((member for member in cls.schedules if member.id == id), None)

@@ -1,5 +1,7 @@
 # controllers/attendance_controller.py
 from models.attendance import Attendance
+from models.class_schedule import ClassSchedule
+from models.member import Member
 from views.attendance_view import AttendanceView
 
 class AttendanceController:
@@ -21,11 +23,23 @@ class AttendanceController:
 
     @staticmethod
     def add_attendance():
-        member_id = AttendanceView.get_member_id()
-        class_id = AttendanceView.get_class_id()
-        status = AttendanceView.get_status()
+        members = Member.get_all()
+        # Check if members or classes are empty
+        if not members:
+            print("Error: No members found. Unable to add attendance.")
+            return
 
-        attendance = Attendance(member_id=member_id, class_id=class_id, attendance_date="2024-12-20", status=status)
+        classes = ClassSchedule.get_all()
+        if not classes:
+            print("Error: No classes found. Unable to add attendance.")
+            return
+
+        member_id = AttendanceView.get_member_id(members)
+        class_id = AttendanceView.get_class_id(classes)
+        status = AttendanceView.get_status()
+        attendance_date = AttendanceView.get_attendance_date()
+
+        attendance = Attendance(member_id=member_id, class_id=class_id, attendance_date=attendance_date, status=status)
         AttendanceView.display_attendance_success(attendance)
 
     @staticmethod
@@ -35,4 +49,8 @@ class AttendanceController:
             AttendanceView.display_no_attendance_found()
         else:
             for record in attendance_records:
-                AttendanceView.display_attendance_record(record)
+                # Fetch the Member and Trainer details based on their IDs
+                member = Member.get_by_id(record.member_id)
+                class_detail = ClassSchedule.get_by_id(record.class_id)
+
+                AttendanceView.display_attendance_record(record, member.name, class_detail.class_name)
