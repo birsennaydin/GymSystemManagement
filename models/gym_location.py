@@ -5,19 +5,17 @@ class GymLocation:
     id_counter = 1
     locations = []
 
-    def __init__(self, name, address, city, country, manager_id):
+    def __init__(self, name, address, city, country):
         self._id = GymLocation.id_counter
         self._name = None
         self._address = None
         self._city = None
         self._country = None
-        self._manager_id = None
 
         self.name = name
         self.address = address
-        self.city = city  # Enum'dan gelen city değeri
+        self.city = city
         self.country = country
-        self.manager_id = manager_id
 
         GymLocation.id_counter += 1
         GymLocation.locations.append(self)
@@ -52,9 +50,14 @@ class GymLocation:
 
     @city.setter
     def city(self, value):
-        if value not in CityEnum.__members__:
-            raise ValueError(f"Invalid city. Please choose from {', '.join(CityEnum.__members__.keys())}.")
-        self._city = value
+        try:
+            if value is None or value not in [member.value for member in CityEnum]:
+                raise ValueError(
+                    f"Invalid city: {value}. Please choose from {', '.join([member.value for member in CityEnum])}.")
+            self._city = value
+
+        except ValueError as e:
+            print(f"Error: {e}")
 
     @property
     def country(self):
@@ -62,19 +65,10 @@ class GymLocation:
 
     @country.setter
     def country(self, value):
-        if value not in CountryEnum.__members__:
-            raise ValueError(f"Invalid country. Please choose from {', '.join(CountryEnum.__members__.keys())}.")
+        print(f"COUNTRYYY: {value}")
+        if value not in [member.value for member in CountryEnum]:
+            raise ValueError(f"Invalid country. Please choose from {', '.join([member.value for member in CountryEnum])}.")
         self._country = value
-
-    @property
-    def manager_id(self):
-        return self._manager_id
-
-    @manager_id.setter
-    def manager_id(self, value):
-        if not isinstance(value, int):
-            raise ValueError("Manager ID must be an integer.")
-        self._manager_id = value
 
     @classmethod
     def get_all(cls):
@@ -110,19 +104,18 @@ class GymLocation:
     @classmethod
     def initialize_default_locations(cls):
         if not cls.locations:
-            cls.locations.append(GymLocation(
+            # Directly initialize default locations without appending twice
+            GymLocation(
                 name="Downtown Gym",
                 address="123 Main St",
-                city="LONDON",
-                country="UNITED_KINGDOM",
-                manager_id=1
-            ))
-            cls.locations.append(GymLocation(
+                city="London",
+                country="United Kingdom"
+            )
+            GymLocation(
                 name="City Center Gym",
                 address="456 Market St",
-                city="NEW_YORK",
-                country="USA",
-                manager_id=2
-            ))
+                city="New York",
+                country="United States of America"
+            )
 
 GymLocation.initialize_default_locations()

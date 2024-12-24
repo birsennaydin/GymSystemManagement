@@ -21,7 +21,7 @@ class AttendanceView:
 
     @staticmethod
     def get_status():
-        print("Enter Attendance Status:")
+        print("\nEnter Attendance Status:")
         for idx, method in enumerate(AttendanceStatusEnum, 1):
             print(f"{idx}. {method.value}")
 

@@ -33,10 +33,6 @@ class CountryEnum(Enum):
     GERMANY = "Germany"
     FRANCE = "France"
     TURKEY = "Turkey"
-    AUSTRALIA = "Australia"
-    SPAIN = "Spain"
-    ITALY = "Italy"
-    INDIA = "India"
 
 class CityEnum(Enum):
     LONDON = "London"
@@ -45,10 +41,6 @@ class CityEnum(Enum):
     BERLIN = "Berlin"
     PARIS = "Paris"
     ISTANBUL = "Istanbul"
-    SYDNEY = "Sydney"
-    MADRID = "Madrid"
-    MILAN = "Milan"
-    MUMBAI = "Mumbai"
 
 class GymTypeEnum(Enum):
     FITNESS = "Fitness"

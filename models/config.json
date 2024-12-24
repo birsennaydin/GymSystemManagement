@@ -1,0 +1,24 @@
+{
+    "default_users": [
+        {
+            "email": "admin@stmarys.com",
+            "password": "admin123",
+            "role": "MANAGER"
+        },
+        {
+            "email": "trainer@stmarys.com",
+            "password": "trainer123",
+            "role": "TRAINER"
+        },
+        {
+            "email": "attendant@stmarys.com",
+            "password": "attendant123",
+            "role": "ATTENDANT"
+        },
+        {
+            "email": "member@stmarys.com",
+            "password": "member123",
+            "role": "MEMBER"
+        }
+    ]
+}

@@ -101,18 +101,6 @@ class WorkoutZoneView:
         return input("Enter the number of the gym location: ")
 
     @staticmethod
-    def display_staff_list(staff_list):
-        """
-        Displays the list of staff members.
-        """
-        if not staff_list:
-            print("No staff members to display.")
-        else:
-            for staff in staff_list:
-                print(
-                    f"ID: {staff.get_staff_id()}, Name: {staff.get_name()}, Role: {staff.get_role().name}, Email: {staff.email}, Phone: {staff.phone}")
-
-    @staticmethod
     def display_class_schedule_menu():
         print("\nClass Schedule Management")
         print("1. Add New Class Schedule")

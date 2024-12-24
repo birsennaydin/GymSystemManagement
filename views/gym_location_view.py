@@ -1,4 +1,7 @@
 # views/gym_location_view.py
+from models.enums import CityEnum, CountryEnum
+
+
 class GymLocationView:
     @staticmethod
     def display_gym_location_menu():
@@ -23,11 +26,36 @@ class GymLocationView:
 
     @staticmethod
     def get_city():
-        return input("Enter City: ")
+        print("\nEnter City ID: ")
+
+        for idx, method in enumerate(CityEnum, 1):
+            print(f"{idx}. {method.value}")
+
+        choice = input("Enter choice (1/2/3/4/5/6): ").strip()
+
+        try:
+            # Map the input to the enum, using zero-based indexing (subtract 1 from the choice)
+            selected_city = list(CityEnum)[int(choice) - 1]
+            return selected_city.value
+        except (IndexError, ValueError):
+            print("Invalid choice. Please select a valid city.")
+            return GymLocationView.get_city()
 
     @staticmethod
     def get_country():
-        return input("Enter Country: ")
+        print("\nEnter Country ID: ")
+
+        for idx, method in enumerate(CountryEnum, 1):
+            print(f"{idx}. {method.value}")
+
+        choice = input("Enter choice (1/2/3/4/5/6): ").strip()
+
+        try:
+            selected_country = list(CountryEnum)[int(choice) - 1]
+            return selected_country.value
+        except (IndexError, ValueError):
+            print("Invalid choice. Please select a valid country.")
+            return GymLocationView.get_country()
 
     @staticmethod
     def display_gym_location_added_success(gym_location):

@@ -1,5 +1,6 @@
 # controllers/gym_location_controller.py
 from models.gym_location import GymLocation
+from models.staff import Staff
 from views.gym_location_view import GymLocationView
 
 class GymLocationController:
@@ -42,8 +43,9 @@ class GymLocationController:
 
     @staticmethod
     def update_gym_location():
+        GymLocationController.list_gym_locations()
         location_id = GymLocationView.get_gym_location_id_for_update()
-        location = GymLocation.get_by_id(location_id)
+        location = GymLocation.get_by_id(int(location_id))
 
         if not location:
             GymLocationView.display_gym_location_not_found()
@@ -51,11 +53,12 @@ class GymLocationController:
             GymLocationView.display_gym_location_update_prompt(location)
             name = GymLocationView.get_new_value(location.name, "Name")
             address = GymLocationView.get_new_value(location.address, "Address")
-            city = GymLocationView.get_new_value(location.city, "City")
-            country = GymLocationView.get_new_value(location.country, "Country")
+            city = GymLocationView.get_city()
+            country = GymLocationView.get_country()
 
             location.name = name
             location.address = address
             location.city = city
             location.country = country
+
             GymLocationView.display_gym_location_updated_success(location.id)

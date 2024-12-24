@@ -93,7 +93,6 @@ class WorkoutZoneController:
         WorkoutZoneController.list_workout_zones()  # List available workout zones
         zone_id = WorkoutZoneView.get_workout_zone_id_for_update()  # Ask for zone ID
         zone = WorkoutZone.get_by_id(int(zone_id))  # Fetch the selected zone
-        print(f"Zone23: {zone.id}, ZoneType: {zone.zone_type}")
 
         if zone:
             WorkoutZoneView.display_workout_zone_update_prompt(zone)
@@ -119,14 +118,10 @@ class WorkoutZoneController:
                 print(f"ID: {staff_id}, Name: {staff_name}, Gym Location: {gym_location}")
 
             staff_id = WorkoutZoneView.get_workout_staff_id_for_update()
-            print(f"Current zone type: {zone.zone_type}")
-            print(f"New zone type selected: {zone_type}")
 
             # Update the workout zone details
             zone.zone_type = zone_type  # Update the zone type
-            print(f"ZOnee {staff_id}, {zone_type}")
             zone.staff_id = staff_id
-            print(f"ZOnee11 {zone.staff_id}")
 
             WorkoutZoneView.display_workout_zone_updated_success(zone.id)  # Display success message
         else:
