@@ -1,4 +1,6 @@
 # controllers/auth_controller.py
+from random import choice
+
 from controllers.appointment_controller import AppointmentController
 from controllers.attendance_controller import AttendanceController
 from controllers.gym_location_controller import GymLocationController
@@ -66,10 +68,10 @@ class AuthController:
         try:
             if user.role == UserRole.MANAGER:  # Check role as UserRole enum
                 choice =  DisplayMenu.display_admin_menu()  # Manager sees the full menu
-                print(f"Display menu: {choice}")
                 AuthController.handle_admin_menu_choice(choice, user)
             elif user.role == UserRole.TRAINER:
-                return DisplayMenu.display_trainer_menu()  # Trainer has access to specific menus
+                choice = DisplayMenu.display_trainer_menu()  # Trainer has access to specific menus
+                AuthController.handle_trainer_menu_choice(choice, user)
             elif user.role == UserRole.ATTENDANT:
                 return DisplayMenu.display_attendant_menu()  # Attendant can only access limited menus
             elif user.role == UserRole.MEMBER:
@@ -110,6 +112,32 @@ class AuthController:
                 print(f"UserController: {choice}")
                 UserController.manage_users(user)
             elif choice == "10":  # Logout
+                print("Logging out...")
+                return False  # End the session and logout
+            else:
+                print("Invalid choice. Please try again.")
+        except Exception as e:
+            print(f"An error occurred while handling the menu choice: {str(e)}")
+        return True  # Continue running the menu after valid choices
+
+    @staticmethod
+    def handle_trainer_menu_choice(choice, user):
+        """
+        Handles the choices for the Trainer menu.
+        """
+        try:
+            if choice == "1":  # Member Management
+                MemberController.manage_member(user)
+            elif choice == "2":  # Workout Zones
+                WorkoutZoneController.manage_workout_zones(user)
+            elif choice == "3":  # Appointments
+                AppointmentController.manage_appointments(user)
+            elif choice == "4":  # Attendance Tracking
+                AttendanceController.check_in(user)
+            elif choice == "5":  # Staff Management
+                staff_controller = StaffController()  # Create an instance of StaffController
+                staff_controller.manage_staff(user)
+            elif choice == "6":  # Logout
                 print("Logging out...")
                 return False  # End the session and logout
             else:

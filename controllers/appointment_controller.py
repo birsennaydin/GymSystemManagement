@@ -25,7 +25,14 @@ class AppointmentController:
     def add_appointment():
         # Fetch all members and staff (trainers)
         members = Member.get_all()  # Assuming you have a method to fetch all members
+        if not members:
+            print("Error: No members found. Unable to add appointment.")
+            return
+
         staff = Staff.get_by_role("TRAINER")  # Assuming you have a method to fetch staff with role 'TRAINER'
+        if not staff:
+            print("Error: No trainer staff found. Unable to add appointment.")
+            return
 
         # Display member and trainer lists and get IDs
         member_id = AppointmentView.get_member_id(members)  # Select member from the list

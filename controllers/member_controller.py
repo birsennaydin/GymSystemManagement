@@ -91,9 +91,15 @@ class MemberController:
         """
         Updates a member's details.
         """
-        email = MemberView.get_member_email()  # Get the email of the member to update
-        member = Member.get_by_email(email)  # Find the member by email
+        members = Member.get_all()
+        # Check if members or classes are empty
+        if not members:
+            print("Error: No members found.")
+            return
 
+        member_id = MemberView.get_member_id(members)
+        member = Member.get_by_id(member_id)  # Find the member by email
+        print(f"Member: {member.name}, {member.email}, {member.phone}")
         if member:
             MemberView.display_member_update_prompt(member)  # Display the current member's details
 
@@ -142,12 +148,18 @@ class MemberController:
         """
         Deletes a member from the system by their email.
         """
-        email = MemberView.get_member_email()  # Get the email of the member to delete
-        member = Member.get_by_email(email)  # Find the member by email
+        members = Member.get_all()
+        # Check if members or classes are empty
+        if not members:
+            print("Error: No members found.")
+            return
+
+        member_id = MemberView.get_member_id(members)
+        member = Member.get_by_id(member_id)
 
         if member:
             Member.members.remove(member)  # Remove the member from the list
-            MemberView.display_member_deleted_success(email)  # Display success message
-            print(f"Deleted member with email: {email}")
+            MemberView.display_member_deleted_success(member.email)  # Display success message
+            print(f"Deleted member with email: {member.email}")
         else:
             MemberView.display_member_not_found()

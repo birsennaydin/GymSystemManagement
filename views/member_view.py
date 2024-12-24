@@ -112,3 +112,11 @@ class MemberView:
     @staticmethod
     def display_member_deleted_success(email):
         print(f"Member with email {email} has been deleted successfully!")
+
+    @staticmethod
+    def get_member_id(members):
+        print("\nSelect a Member:")
+        for idx, member in enumerate(members, 1):
+            print(f"{idx}. {member.name}")
+        member_choice = int(input("Enter the number of the member: "))
+        return members[member_choice - 1].id  # Return the selected member's ID

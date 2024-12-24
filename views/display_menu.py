@@ -25,11 +25,12 @@ class DisplayMenu:
         Displays the menu for Trainers, which includes access to appointments, attendance, and members.
         """
         print("\nTrainer Menu:")
-        print("1. View Appointments")
-        print("2. Manage Your Profile")
-        print("3. Attendance Tracking")
-        print("4. View Members")
-        print("5. Logout")
+        print("1. Members Management")
+        print("2. Workout Zones")
+        print("3. Appointments Management")
+        print("4. Attendance Tracking")
+        print("5. Staff Management")
+        print("6. Logout")
         return input("Enter your choice: ").strip()
 
     @staticmethod
