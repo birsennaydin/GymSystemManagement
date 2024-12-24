@@ -1,6 +1,6 @@
 import uuid
 
-from models.enums import PaymentMethodEnum
+from models.enums import PaymentMethodEnum, SubscriptionType, DiscountStatus
 from models.member import Member
 
 
@@ -46,32 +46,32 @@ class PaymentView:
     @staticmethod
     def get_subscription_plan():
         print("Choose Subscription Plan:")
-        print("1. Monthly")
-        print("2. Quarterly")
-        print("3. Annual")
-        choice = input("Enter choice (1/2/3): ").strip()
+        for idx, method in enumerate(SubscriptionType, 1):
+            print(f"{idx}. {method.value}")
 
-        payment_types = {
-            "1": "Monthly",
-            "2": "Quarterly",
-            "3": "Annual"
-        }
+        choice = input("Enter choice (1/2/3/4): ").strip()
 
-        return payment_types.get(choice, "Unknown")
+        try:
+            selected_method = list(SubscriptionType)[int(choice) - 1]
+            return selected_method.value
+        except (IndexError, ValueError):
+            print("Invalid choice. Please select a valid subscription plan.")
+            return PaymentView.get_subscription_plan()
 
     @staticmethod
     def get_discount_applied():
         print("Was a discount applied?")
-        print("1. Yes")
-        print("2. No")
-        choice = input("Enter choice (1/2): ").strip()
+        for idx, method in enumerate(DiscountStatus, 1):
+            print(f"{idx}. {method.value}")
 
-        discount_types = {
-            "1": "Yes",
-            "2": "No"
-        }
+        choice = input("Enter choice (1/2/3/4): ").strip()
 
-        return discount_types.get(choice, "Unknown")
+        try:
+            selected_method = list(DiscountStatus)[int(choice) - 1]
+            return selected_method.value
+        except (IndexError, ValueError):
+            print("Invalid choice. Please select a valid discount status.")
+            return PaymentView.get_discount_applied()
 
     @staticmethod
     def get_transaction_id():

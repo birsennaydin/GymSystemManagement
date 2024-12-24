@@ -1,5 +1,5 @@
 # models/payment.py
-from models.enums import PaymentMethodEnum, SubscriptionType
+from models.enums import PaymentMethodEnum, SubscriptionType, DiscountStatus
 
 
 class Payment:
@@ -27,6 +27,9 @@ class Payment:
 
         Payment.id_counter += 1
         Payment.payments.append(self)
+
+        # Calculate the discount
+        self.apply_discount()
 
     @property
     def id(self):
@@ -68,9 +71,9 @@ class Payment:
 
     @payment_method.setter
     def payment_method(self, value):
-        if value not in PaymentMethodEnum.__members__:
+        if value not in [member.value for member in PaymentMethodEnum]:
             raise ValueError(
-                f"Invalid payment method. Please choose from {', '.join(PaymentMethodEnum.__members__.keys())}.")
+                f"Invalid payment method. Please choose from {', '.join([member.value for member in PaymentMethodEnum])}.")
         self._payment_method = value
 
     @property
@@ -79,9 +82,9 @@ class Payment:
 
     @subscription_plan.setter
     def subscription_plan(self, value):
-        if value not in SubscriptionType.__members__:
+        if value not in [member.value for member in SubscriptionType]:
             raise ValueError(
-                f"Invalid subscription plan. Please choose from {', '.join(SubscriptionType.__members__.keys())}.")
+                f"Invalid subscription plan. Please choose from {', '.join([member.value for member in SubscriptionType])}.")
         self._subscription_plan = value
 
     @property
@@ -90,8 +93,9 @@ class Payment:
 
     @discount_applied.setter
     def discount_applied(self, value):
-        if not isinstance(value, bool):
-            raise ValueError("Discount applied must be a boolean value (True/False).")
+        if value not in [member.value for member in DiscountStatus]:
+            raise ValueError(
+                f"Invalid discount status. Please choose from {', '.join([member.value for member in DiscountStatus])}.")
         self._discount_applied = value
 
     @property
@@ -111,3 +115,17 @@ class Payment:
     @classmethod
     def get_by_id(cls, id):
         return next((payment for payment in cls.payments if payment.id == id), None)
+
+    def apply_discount(self):
+        """Apply discounts based on the subscription plan."""
+        if self.discount_applied:
+            # Define discount rates based on subscription type
+            if self.subscription_plan == SubscriptionType.ANNUAL.value:
+                discount_rate = 0.20  # 20% discount for annual subscription
+            elif self.subscription_plan == SubscriptionType.QUARTERLY.value:
+                discount_rate = 0.10  # 10% discount for quarterly subscription
+            else:
+                discount_rate = 0.0  # No discount for monthly subscription
+
+            # Apply the discount to the amount
+            self._amount -= self._amount * discount_rate

@@ -22,6 +22,10 @@ class SubscriptionType(Enum):
     QUARTERLY = "Quarterly"
     ANNUAL = "Annual"
 
+class DiscountStatus(Enum):
+    YES = "Yes"
+    NO = "No"
+
 class CountryEnum(Enum):
     UNITED_KINGDOM = "United Kingdom"
     USA = "United States of America"

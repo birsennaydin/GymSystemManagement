@@ -31,7 +31,7 @@ class PaymentController:
         subscription_plan = PaymentView.get_subscription_plan()
 
         # Collect discount applied (ask the user if discount was applied)
-        discount_applied = PaymentView.get_discount_applied()  # Assuming you have a method for this
+        discount_applied = PaymentView.get_discount_applied()
 
         # Get the transaction ID, if left blank, generate a system ID
         transaction_id = PaymentView.get_transaction_id()  # User can input transaction ID
