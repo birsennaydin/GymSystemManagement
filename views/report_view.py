@@ -1,41 +1,49 @@
 # views/report_view.py
+
 class ReportView:
     @staticmethod
     def display_report_menu():
-        print("\nReport Menu")
-        print("1. Monthly Income Report")
-        print("2. Member Attendance Report")
-        print("3. Popular Class Report")
-        print("4. Trainer Performance Report")
-        print("5. Back to Main Menu")
+        """
+        Displays the menu for generating reports.
+        """
+        print("\nReport Menu:")
+        print("1. Attendance Report")
+        print("2. Payment Report")
+        print("3. Member Growth Report")
+        print("4. Back to Main Menu")
         return input("Enter your choice: ").strip()
 
     @staticmethod
-    def display_monthly_income_report(income):
-        print(f"Total Income for the month: ${income:.2f}")
+    def display_attendance_report(report):
+        """
+        Displays the attendance report.
+        """
+        print("\nAttendance Report:")
+        for email, attendance in report.items():
+            print(f"Member: {email}, Sessions Attended: {attendance}")
 
     @staticmethod
-    def display_member_attendance_report(attendance_data):
-        print("Member Attendance Report:")
-        for data in attendance_data:
-            print(data)
+    def display_payment_report(report):
+        """
+        Displays the payment report.
+        """
+        print("\nPayment Report:")
+        print(f"Total Revenue: ${report['total_revenue']}")
+        print("Payment Methods Breakdown:")
+        for method, amount in report['payment_methods'].items():
+            print(f"{method}: ${amount}")
 
     @staticmethod
-    def display_popular_class_report(popular_classes):
-        print("Popular Classes Report:")
-        for class_id, participants in popular_classes.items():
-            print(f"Class ID {class_id}: {participants} participants")
-
-    @staticmethod
-    def display_trainer_performance_report(trainer_performance):
-        print("Trainer Performance Report:")
-        for trainer_id, sessions in trainer_performance.items():
-            print(f"Trainer {trainer_id}: {sessions} sessions")
+    def display_member_growth_report(report):
+        """
+        Displays the member growth report.
+        """
+        print("\nMember Growth Report:")
+        print(f"Total Members Amount: {report['new_members']}")
 
     @staticmethod
     def display_invalid_choice():
+        """
+        Displays an error message for invalid choices.
+        """
         print("Invalid choice. Please try again.")
-
-    @staticmethod
-    def display_return_to_main_menu():
-        print("Returning to Main Menu...")

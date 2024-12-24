@@ -1,48 +1,54 @@
 # models/report.py
+from datetime import datetime
+
+from models.attendance import Attendance
+from models.payment import Payment
+from models.member import Member
+from models.staff import Staff
 
 class Report:
-    def __init__(self):
-        self.total_income = 0
-        self.attendance_data = []
-        self.popular_classes = {}
-        self.trainer_performance = {}
+    @staticmethod
+    def generate_attendance_report():
+        """
+        Generates a report on member attendance.
+        """
+        attendance_data = Attendance.get_all()  # Get all attendance records
+        report = {}
+        for record in attendance_data:
+            member = Member.get_by_id(record.member_id)
+            report[member.email] = report.get(member.email, 0) + 1  # Track number of attendances per member
+        return report
 
-    @property
-    def total_income(self):
-        return self._total_income
+    @staticmethod
+    def generate_payment_report(start_date=None):
+        """
+        Generates a report on payments and revenue starting from the specified date.
+        """
+        payment_data = Payment.get_all()
+        report = {"total_revenue": 0, "payment_methods": {}}
 
-    @total_income.setter
-    def total_income(self, value):
-        if not isinstance(value, (int, float)):
-            raise ValueError("Income must be a number.")
-        self._total_income = value
+        # Convert start_date string to datetime object if provided
+        if start_date:
+            try:
+                start_date = datetime.strptime(start_date, "%Y-%m-%d")  # Ensure it's in the correct format
+            except ValueError:
+                raise ValueError("Invalid date format. Please use 'YYYY-MM-DD'.")
 
-    @property
-    def attendance_data(self):
-        return self._attendance_data
+        for payment in payment_data:
+            # Filter payments based on start_date if provided
+            payment_date = datetime.strptime(payment.payment_date, "%Y-%m-%d %H:%M:%S")
+            if not start_date or payment_date >= start_date:
+                report["total_revenue"] += payment.amount
+                report["payment_methods"][payment.payment_method] = report["payment_methods"].get(
+                    payment.payment_method, 0) + payment.amount
 
-    @attendance_data.setter
-    def attendance_data(self, value):
-        if not isinstance(value, list):
-            raise ValueError("Attendance data must be a list.")
-        self._attendance_data = value
+        return report
 
-    @property
-    def popular_classes(self):
-        return self._popular_classes
-
-    @popular_classes.setter
-    def popular_classes(self, value):
-        if not isinstance(value, dict):
-            raise ValueError("Popular classes must be a dictionary.")
-        self._popular_classes = value
-
-    @property
-    def trainer_performance(self):
-        return self._trainer_performance
-
-    @trainer_performance.setter
-    def trainer_performance(self, value):
-        if not isinstance(value, dict):
-            raise ValueError("Trainer performance must be a dictionary.")
-        self._trainer_performance = value
+    @staticmethod
+    def generate_member_growth_report():
+        """
+        Generates a report on member growth over time.
+        """
+        members = Member.get_all()
+        report = {"new_members": len(members)}  # Just a simple count for now
+        return report

@@ -102,7 +102,8 @@ class AuthController:
                 staff_controller = StaffController()  # Create an instance of StaffController
                 staff_controller.manage_staff(user)
             elif choice == "7":  # Reports
-                ReportController.generate_reports(user)
+                report_controller = ReportController()
+                report_controller.show_report_menu(user)
             elif choice == "8":  # Manage Gym Locations
                 GymLocationController.manage_locations(user)
             elif choice == "9":  # Manage User Management
