@@ -5,7 +5,8 @@ class AppointmentView:
         print("\nAppointment Management Menu")
         print("1. Add Appointment")
         print("2. List Appointments")
-        print("3. Back to Main Menu")
+        print("3. Update Appointments")
+        print("4. Back to Main Menu")
         return input("Enter your choice: ").strip()
 
     @staticmethod
@@ -15,6 +16,10 @@ class AppointmentView:
             print(f"{idx}. {member.name}")
         member_choice = int(input("Enter the number of the member: "))
         return members[member_choice - 1].id
+
+    @staticmethod
+    def get_appointment_id():
+        return int(input("Enter appointment number: "))
 
     @staticmethod
     def get_trainer_id(staff):

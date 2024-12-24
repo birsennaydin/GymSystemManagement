@@ -16,6 +16,8 @@ class AppointmentController:
             elif choice == "2":
                 AppointmentController.list_appointments()
             elif choice == "3":
+                AppointmentController.update_appointment()
+            elif choice == "4":
                 AppointmentView.display_return_to_main_menu()
                 return AuthController.display_menu_based_on_role(user)
             else:
@@ -61,3 +63,32 @@ class AppointmentController:
 
                 # Pass the member and trainer names to the display function
                 AppointmentView.display_appointment_list(appointment, member.name, trainer.name)
+
+    @staticmethod
+    def update_appointment():
+        """
+        Updates an existing appointment.
+        Allows the user to modify the appointment details.
+        """
+        AppointmentController.list_appointments()
+
+        # List all appointments and get the appointment ID to update
+        appointment_id = AppointmentView.get_appointment_id()
+
+        appointment = Appointment.get_by_id(appointment_id)
+        if not appointment:
+            print("Appointment not found.")
+            return
+
+        # Update fields: date, trainer, status
+        updated_date = AppointmentView.get_appointment_date() or appointment.date
+        updated_trainer_id = AppointmentView.get_trainer_id(Staff.get_by_role("TRAINER")) or appointment.trainer_id
+        updated_status = AppointmentView.get_status() or appointment.status
+
+        # Update the appointment with new values
+        appointment.date = updated_date
+        appointment.trainer_id = updated_trainer_id
+        appointment.status = updated_status
+
+        print(f"Appointment {appointment.id} updated successfully.")
+        AppointmentView.display_appointment_success(appointment)
