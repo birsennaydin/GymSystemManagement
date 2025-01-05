@@ -66,6 +66,12 @@ class UserView:
         print(f"Email: {user.email}, Role: {user.role.value}")
 
     @staticmethod
+    def display_users(users):
+        print("Users List:")
+        for idx, user in enumerate(users, 1):
+            print(f"ID:{idx},  Email: {user.email}, Role: {user.role.value}")
+
+    @staticmethod
     def display_no_users_found():
         print("No users found.")
 

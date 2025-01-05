@@ -39,6 +39,10 @@ class User:
             raise
 
     @property
+    def id(self):
+        return self._id
+
+    @property
     def email(self):
         return self._email
 
@@ -146,3 +150,10 @@ class User:
         Returns all users.
         """
         return cls.users
+
+    @classmethod
+    def get_users_by_id(cls, id):
+        """
+        Returns all users.
+        """
+        return [user for user in cls.users if user.id == id]

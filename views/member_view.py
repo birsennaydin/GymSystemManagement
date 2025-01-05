@@ -4,13 +4,19 @@ from models.gym_location import GymLocation
 
 class MemberView:
     @staticmethod
-    def display_member_menu():
-        print("\nMember Management Menu")
-        print("1. Add Member")
-        print("2. List Members")
-        print("3. Update Member")
-        print("4. Delete Member")  # Add delete option
-        print("5. Back to Main Menu")
+    def display_member_menu(role):
+        print(f"\nMember Management Menu {role}")
+
+        if role == "MEMBER":
+            print("3. Update Member")
+            print("5. Back to Main Menu")
+        else:
+            print("1. Add Member")
+            print("2. List Members")
+            print("3. Update Member")
+            print("4. Delete Member")
+            print("5. Back to Main Menu")
+
         return input("Enter your choice: ").strip()
 
     @staticmethod
@@ -20,6 +26,10 @@ class MemberView:
     @staticmethod
     def get_member_name():
         return input("Name: ")
+
+    @staticmethod
+    def get_user_id():
+        return int(input("Enter User ID: "))
 
     @staticmethod
     def get_member_email():
@@ -88,18 +98,6 @@ class MemberView:
     @staticmethod
     def display_member_not_found():
         print("Member not found!")
-
-    @staticmethod
-    def display_member_update_prompt(member):
-        """
-        Displays the current details of the member before updating.
-        """
-        print(f"Updating details for {member.name}:")
-        print(f"Current Email: {member.email}")
-        print(f"Current Phone: {member.phone}")
-        print(f"Current Membership Type: {member.membership_type}")
-        print(f"Current Health Info: {member.health_info}")
-        print(f"Current Gym Location: {GymLocation.get_by_id(member.gym_location_id).name}")
 
     @staticmethod
     def get_new_value(current_value, prompt):

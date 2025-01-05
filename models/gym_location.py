@@ -104,7 +104,6 @@ class GymLocation:
     @classmethod
     def initialize_default_locations(cls):
         if not cls.locations:
-            # Directly initialize default locations without appending twice
             GymLocation(
                 name="Downtown Gym",
                 address="123 Main St",

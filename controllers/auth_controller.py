@@ -72,10 +72,9 @@ class AuthController:
             elif user.role == UserRole.TRAINER:
                 choice = DisplayMenu.display_trainer_menu()  # Trainer has access to specific menus
                 AuthController.handle_trainer_menu_choice(choice, user)
-            elif user.role == UserRole.ATTENDANT:
-                return DisplayMenu.display_attendant_menu()  # Attendant can only access limited menus
             elif user.role == UserRole.MEMBER:
-                return DisplayMenu.display_member_menu()  # Member can only access their profile and related menus
+                choice = DisplayMenu.display_member_menu()  # Member can only access their profile and related menus
+                AuthController.handle_member_menu_choice(choice, user)
             else:
                 print("Invalid role.")
                 return None
@@ -145,3 +144,24 @@ class AuthController:
         except Exception as e:
             print(f"An error occurred while handling the menu choice: {str(e)}")
         return True  # Continue running the menu after valid choices
+
+    @staticmethod
+    def handle_member_menu_choice(choice, user):
+        """
+        Handles the choices for the Trainer menu.
+        """
+        try:
+            if choice == "1":  # Member Management
+                MemberController.manage_member(user)
+            elif choice == "2":  # Appointments
+                AppointmentController.manage_appointments(user)
+            elif choice == "3":  # Attendance Tracking
+                AttendanceController.check_in(user)
+            elif choice == "4":  # Logout
+                print("Logging out...")
+                return False
+            else:
+                print("Invalid choice. Please try again.")
+        except Exception as e:
+            print(f"An error occurred while handling the menu choice: {str(e)}")
+        return True
