@@ -155,9 +155,7 @@ class AuthController:
                 MemberController.manage_member(user)
             elif choice == "2":  # Appointments
                 AppointmentController.manage_appointments(user)
-            elif choice == "3":  # Attendance Tracking
-                AttendanceController.check_in(user)
-            elif choice == "4":  # Logout
+            elif choice == "3":  # Logout
                 print("Logging out...")
                 return False
             else:
