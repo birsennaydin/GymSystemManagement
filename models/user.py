@@ -28,7 +28,6 @@ class User:
 
             self.email = email
             self.password = password
-            print(f"Save PASSword INITIALIZE: {self.password}, {self.email}")
             self.role = role  # Manager, Trainer, Attendant, Member
 
             User.id_counter += 1
@@ -60,7 +59,6 @@ class User:
     def password(self, value):
         if not value:
             raise ValueError("Password cannot be empty.")
-        print(f"Password 000: {value}")
         self._password = value
 
     @property
@@ -70,7 +68,6 @@ class User:
     @role.setter
     def role(self, value):
         # If the value is an enum instance (UserRole), assign it directly
-        print(f"SETTER ROLE: {value}")
         if isinstance(value, UserRole):
             self._role = value
         elif isinstance(value, str):  # If it's a string, convert it to the enum

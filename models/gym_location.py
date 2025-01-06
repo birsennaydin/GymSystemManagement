@@ -65,7 +65,6 @@ class GymLocation:
 
     @country.setter
     def country(self, value):
-        print(f"COUNTRYYY: {value}")
         if value not in [member.value for member in CountryEnum]:
             raise ValueError(f"Invalid country. Please choose from {', '.join([member.value for member in CountryEnum])}.")
         self._country = value
