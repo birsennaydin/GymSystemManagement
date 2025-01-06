@@ -52,7 +52,7 @@ class TestMember(unittest.TestCase):
     def test_invalid_user_id(self):
         """Test that setting an invalid user ID raises a ValueError."""
         with self.assertRaises(ValueError):
-            member = Member(
+            Member(
                 name="John Doe",
                 email="john.doe@example.com",
                 phone="1234567890",
