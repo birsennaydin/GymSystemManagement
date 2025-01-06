@@ -52,8 +52,7 @@ class DisplayMenu:
         print("\nMember Menu:")
         print("1. View Your Profile")
         print("2. View Your Appointments")
-        print("3. Attendance Tracking")
-        print("4. Logout")
+        print("3. Logout")
         return input("Enter your choice: ").strip()
 
     @staticmethod

@@ -12,11 +12,11 @@ class AppointmentController:
             choice = AppointmentView.display_appointment_menu()
 
             if choice == "1":
-                AppointmentController.add_appointment(user.id, user.role)
+                AppointmentController.add_appointment(user.id, user.role.value)
             elif choice == "2":
-                AppointmentController.list_appointments(user.id, user.role)
+                AppointmentController.list_appointments(user.id, user.role.value)
             elif choice == "3":
-                AppointmentController.update_appointment(user.id, user.role)
+                AppointmentController.update_appointment(user.id, user.role.value)
             elif choice == "4":
                 AppointmentView.display_return_to_main_menu()
                 return AuthController.display_menu_based_on_role(user)
