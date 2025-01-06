@@ -8,8 +8,8 @@ class MemberView:
         print(f"\nMember Management Menu {role}")
 
         if role == "MEMBER":
-            print("3. Update Member")
-            print("5. Back to Main Menu")
+            print("1. Update Member")
+            print("2. Back to Main Menu")
         else:
             print("1. Add Member")
             print("2. List Members")

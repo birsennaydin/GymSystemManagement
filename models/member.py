@@ -122,17 +122,6 @@ class Member:
                 )
 
                 Member(
-                    name="Trainer",
-                    email="attendant@stmarys.com",
-                    phone="0709893595",
-                    membership_type="Regular",
-                    health_info="normal",
-                    status="Active",  # Default to Active status
-                    gym_location_id=1,  # Set gym location ID
-                    user_id=2
-                )
-
-                Member(
                     name="Member",
                     email="member@stmarys.com",
                     phone="0709898595",
@@ -140,7 +129,7 @@ class Member:
                     health_info="normal",
                     status="Active",  # Default to Active status
                     gym_location_id=1,  # Set gym location ID
-                    user_id=4
+                    user_id=2
                 )
 
                 print("Default members created.")

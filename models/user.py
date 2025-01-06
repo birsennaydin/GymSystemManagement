@@ -121,18 +121,6 @@ class User:
                 )
 
                 User(
-                    email="trainer@stmarys.com",
-                    password="trainer123",
-                    role="TRAINER"
-                )
-
-                User(
-                    email="attendant@stmarys.com",
-                    password="attendant123",
-                    role="ATTENDANT"
-                )
-
-                User(
                     email="member@stmarys.com",
                     password="member123",
                     role="MEMBER"

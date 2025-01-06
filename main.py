@@ -1,6 +1,7 @@
 # main.py
 from gym_system import GymSystem
 from models.member import Member
+from models.staff import Staff
 from models.user import User  # Import the User model
 
 def main():
@@ -9,6 +10,9 @@ def main():
 
     # Create the default Members for default users
     Member.create_default_member()
+
+    # Create the default trainer staff for Member roles
+    Staff.create_default_staff()
 
     # Now, run the gym system
     system = GymSystem()

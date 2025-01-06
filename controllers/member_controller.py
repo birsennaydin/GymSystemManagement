@@ -16,16 +16,15 @@ class MemberController:
         from controllers.auth_controller import AuthController
         while True:
             choice = MemberView.display_member_menu(user.role.value)
-            if choice == "1":  # Add member
+            if choice == "1" and user.role.value != "MEMBER":  # Add member
                 MemberController.add_member()
-            elif choice == "2":  # List members
+            elif choice == "2" and user.role.value != "MEMBER":  # List members
                 MemberController.list_members()
-            elif choice == "3":  # Update member
-                print(f"User: {user}")
+            elif choice == "3" or (choice == "1" and user.role.value == "MEMBER"):  # Update member
                 MemberController.update_member(user.id, user.role.value)
             elif choice == "4":  # Delete member
                 MemberController.delete_member()
-            elif choice == "5":  # Return to main menu
+            elif choice == "5" or (choice == "2" and user.role.value == "MEMBER"):  # Return to main menu
                 MemberView.display_return_to_main_menu()
                 return AuthController.display_menu_based_on_role(user)
             else:

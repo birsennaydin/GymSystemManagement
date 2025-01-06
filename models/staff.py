@@ -1,4 +1,5 @@
-from models.enums import UserRole
+from models.enums import UserRole, StaffRole
+
 
 class Staff:
     id_counter = 1
@@ -60,3 +61,27 @@ class Staff:
 
     def get_role(self):
         return self.role
+
+    @classmethod
+    def create_default_staff(cls):
+        """
+        Creates default members when the application first runs.
+        Adds the default members to the member list automatically.
+        """
+        try:
+            # Check if users already exist to prevent duplicate creation
+            if not cls.staff_members:
+                # Create the default staff
+                Staff(
+                    name="TrainerUser",
+                    role= StaffRole["TRAINER"],
+                    email="admin@stmarys.com",
+                    phone="0709898595",
+                    gym_location_id=1
+                )
+
+                print("Default staff created.")
+            else:
+                print("Default staff already exist.")
+        except Exception as e:
+            print(f"Error occurred while creating default staff: {str(e)}")
