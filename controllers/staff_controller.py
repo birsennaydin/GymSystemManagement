@@ -6,7 +6,7 @@ from models.enums import StaffRole
 
 class StaffController:
     def __init__(self):
-        self.staff_list = []
+        self.staff_list = Staff.staff_members  # Now using Staff model to fetch staff list
 
     def manage_staff(self, user):
         """
@@ -56,9 +56,8 @@ class StaffController:
             StaffView.display_invalid_role()
             return
 
-        staff_id = len(self.staff_list) + 1
+        staff_id = len(Staff.staff_members) + 1  # Generate staff ID
         new_staff = Staff(name, role, email, phone, gym_location_id)  # Create a new staff member with gym_location_id
-        self.staff_list.append(new_staff)
         StaffView.display_staff_added_success(name, role.name)
 
     def update_staff(self):
@@ -116,7 +115,4 @@ class StaffController:
         """
         Gets a staff member by ID.
         """
-        for staff in self.staff_list:
-            if staff.get_staff_id() == staff_id:
-                return staff
-        return None
+        return Staff.get_by_id(staff_id)  # Using Staff model to fetch by ID

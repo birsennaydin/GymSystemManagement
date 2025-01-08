@@ -33,7 +33,7 @@ class AuthController:
             user = AuthController.authenticate_user(email, password)
 
             if user:
-                print(f"Login successful! Welcome {user.email}. Role: {user.role}")
+                print(f"Login successful! Welcome {user.email}. Role: {user.role.value}")
                 # Return the authenticated user with their role
                 return user
             else:
@@ -52,7 +52,6 @@ class AuthController:
         try:
             # Find user by email
             user = User.get_by_email(email)
-            print(f"PASSWORD: {user.password}, {password}, {email}, {user}")
             if user and user.password == password:  # Validate password
                 return user
             return None  # Return None if no user found or password is incorrect
