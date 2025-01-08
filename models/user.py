@@ -112,14 +112,14 @@ class User:
             if not cls.users:
                 # Create the default users
                 User(
-                    email="admin@stmarys.com",
-                    password="admin123",
+                    email="manager@stmarys.com",
+                    password="manager%123",
                     role="MANAGER"
                 )
 
                 User(
                     email="member@stmarys.com",
-                    password="member123",
+                    password="member%123",
                     role="MEMBER"
                 )
 

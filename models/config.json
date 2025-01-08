@@ -1,8 +1,8 @@
 {
     "default_users": [
         {
-            "email": "admin@stmarys.com",
-            "password": "admin123",
+            "email": "manager@stmarys.com",
+            "password": "admin%123",
             "role": "MANAGER"
         },
         {
@@ -17,7 +17,7 @@
         },
         {
             "email": "member@stmarys.com",
-            "password": "member123",
+            "password": "member%123",
             "role": "MEMBER"
         }
     ]

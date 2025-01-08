@@ -54,7 +54,7 @@ class TestUser(unittest.TestCase):
 
         # Check that default users are created
         self.assertEqual(len(User.users), 2)  # We expect 4 default users
-        self.assertTrue(any(user.email == "admin@stmarys.com" for user in User.users))
+        self.assertTrue(any(user.email == "manager@stmarys.com" for user in User.users))
         self.assertTrue(any(user.email == "member@stmarys.com" for user in User.users))
 
     def test_user_role_as_enum(self):
