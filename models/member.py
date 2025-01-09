@@ -111,7 +111,7 @@ class Member:
             if not cls.members:
                 # Create the default members
                 Member(
-                    name="Admin",
+                    name="Manager",
                     email="admin@stmarys.com",
                     phone="0709898595",
                     membership_type="Regular",

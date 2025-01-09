@@ -37,7 +37,7 @@ class AttendanceController:
 
             classes = ClassSchedule.get_all()
             if not classes:
-                print("Error: No classes found. Unable to add attendance.")
+                print("Error: No classes found. Please add WorkOut Zone and Class schedule first. Unable to add attendance.")
                 return
 
             member_id = AttendanceView.get_member_id(members)
